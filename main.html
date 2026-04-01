@@ -58,11 +58,15 @@
                     <span id="money"></span>$&NonBreakingSpace;(<span id="mps"></span>/s)
                 </div>
                 <div class="rc" style="background-color: #cf9e87; position: absolute; top: 8%; width: 90%; left: 5%; height: 7%; z-index: 5;">
-                    <button onclick="actual_roll()">Buy a rune!<br>Cost: $10</button>
+                    <button onclick="actual_roll()">Buy a rune!<br>Cost: $<span id="rune_cost"></span></button>
+                    <button onclick="roll_upgrade()">Upgrade rune buy level!<br>Cost: $<span id="rup_cost"></span></button>
                 </div>
                 <div class="rc" style="background-color: #cf9e87; position: absolute; top: 16%; width: 90%; left: 5%; height: 80%; z-index: 5;">
-                    <div class="rc" style="top: 2%; height: 12%; width: 90%; left: 5%; position: absolute;z-index: 9; background-color: #dfae97;">
-                        x<span id="rune_stats" style="font-size: 25px;"></span>&NonBreakingSpace;points
+                    <div style="top: 2%; height: 12%; width: 90%; left: 5%; position: absolute;z-index: 9; background-color: #dfae97;">
+                        <span style="position: absolute; text-align: center; width: 100%">
+                            x<span id="rune_stats" style="font-size: 25px"></span> points<br>
+                            /<span id="rune_stats_2" style="font-size: 20px"></span> chance per rarity
+                        </span>
                     </div>
                     <div class="rc" id="runes" style="top: 15%; height: 80%; width: 90%; left: 5%; position: absolute;z-index: 9; background-color: #dfae97;"></div>
                 </div>

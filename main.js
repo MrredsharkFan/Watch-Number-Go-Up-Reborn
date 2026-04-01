@@ -9,7 +9,8 @@ function initPlayer() {
         rp: new Decimal(0),
         runes: [new Decimal(0)],
         money: new Decimal(0),
-        total_points: new Decimal(0)
+        total_points: new Decimal(0),
+        rune_level: new Decimal(0)
     }
 }
 
@@ -76,6 +77,7 @@ function rebirth() {
     }
 }
 
+
 function tick() {
     dt = (Date.now() - last_tick) / 1000
     player.points = player.points.add(pps().times(dt))
@@ -92,9 +94,12 @@ function tick() {
     dg("rp_eff", format(reb_boost()))
 
     dg("rune_stats", format(total_rune_eff(player.runes)))
+    dg("rune_stats_2", format(luck()))
     dg("runes", display_rarity_html(player.runes))
     dg("money", format(player.money))
     dg("mps", format(money_gain()))
+    dg("rune_cost", format(rune_cost()))
+    dg("rup_cost", format(rup_cost()))
 
     dgs("ubar", "width", `${player.points.div(upg_cost(player.upgrade)).times(100).min(100)}%`)
     dgs("ubar2", "width", `${remain(player.upgrade)[1].times(100)}%`)
