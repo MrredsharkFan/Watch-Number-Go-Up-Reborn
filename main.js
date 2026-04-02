@@ -10,7 +10,8 @@ function initPlayer() {
         runes: [new Decimal(0)],
         money: new Decimal(0),
         total_points: new Decimal(0),
-        rune_level: new Decimal(0)
+        rune_level: new Decimal(0),
+        notation: "Sc"
     }
 }
 
@@ -130,6 +131,8 @@ function tick() {
     
     tab_logic()
     automate_stuff()
+
+    player.notation = document.getElementById("notation").value
 }
 
 setInterval(tick,1,1)

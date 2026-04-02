@@ -11,6 +11,7 @@ function load() {
     var u = JSON.parse(localStorage.getItem("wngu-r2"))
     const player_vars_d = ["points", "rp", "upgrade", "money", "total_points","rune_level"]
     const player_vars_l = ["runes"]
+    const player_vars_str = ["notation"]
     console.log(JSON.parse(localStorage.getItem("wngu-r2")))
     for (var i in player_vars_d) {
         u[player_vars_d[i]] = new Decimal(u[player_vars_d[i]])
@@ -22,6 +23,11 @@ function load() {
             u[player_vars_l[i]][j] = new Decimal(u[player_vars_l[i]][j]) //oh yeah i finally learnt how to code
         }
     }
+    for (var i in player_vars_str) {
+        u[player_vars_str[i]] = u[player_vars_str[i]]
+    }
     player = u
 }
+
 load()
+document.getElementById("notation").value = player.notation

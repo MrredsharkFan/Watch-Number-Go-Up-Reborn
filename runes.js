@@ -33,7 +33,7 @@ function display_rarity_html(data) {
     var s = Math.max(data.length - 14, 0)
     var data = data.slice(s)
     for (var i in data) {
-        q = q+`<div style="position: absolute; height: 5%; font-size: 80%; width: 90%; top:${5+i*6}%; background-color: hsl(${(Number(i)+Number(s))*70},50%,90%)">${format(data[i])} ${actual_name(Number(i)+Number(s))} &rarr; x${format(indiv_rune_eff(data[i],Number(i)+Number(s)))} points</div>`
+        q = q+`<div style="position: absolute; opacity: ${data[i].eq(0)?50:100}%; height: 5%; font-size: 80%; width: 90%; top:${5+i*6}%; background-color: hsl(${(Number(i)+Number(s))*70},50%,90%)">${format(data[i])} ${actual_name(Number(i)+Number(s))} &rarr; x${format(indiv_rune_eff(data[i],Number(i)+Number(s)))} points</div>`
     }
     return q
 }
