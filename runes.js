@@ -69,6 +69,6 @@ function roll_upgrade() {
 
 function downgrade(){player.rune_level = player.rune_level.sub(1).max(0)}
 
-function money_gain() { return player.points.log10().div(10).sub(3).max(0).add(1).sub(1) }
+function money_gain() { return player.points.add(676767).log10().div(10).sub(3).max(0).add(1).sub(1) }
 function rune_cost() { return player.rune_level.div(1.5).add(1).pow10() }
 function rup_cost() { return player.rune_level.div(1.4).add(3).pow10() }

@@ -45,11 +45,11 @@ function upgrade_effect(amt) {
 function buy_upg() {
     if (upg_cost(player.upgrade).lte(player.points)) {
         if (player.total_points.lte(1e100)) {
-            player.points = player.points.sub(upg_cost(player.upgrade))
+            if (player.upgrade.lte("1e6")) { player.points = player.points.sub(upg_cost(player.upgrade)) }
             player.upgrade = player.upgrade.add(1)
         } else {
             player.upgrade = player.points.div(10).log(4).floor().add(1)
-            player.points = player.points.sub(upg_cost(player.upgrade.sub(1)))
+            if (player.upgrade.lte("1e6")) { player.points = player.points.sub(upg_cost(player.upgrade.sub(1))) }
         }
     }
 }
@@ -81,6 +81,7 @@ function tab_logic() {
 }
 
 function rebirth() {
+    console.log(player.points)
     if (rp_gain().gte(1)) {
         player.rp = player.rp.add(rp_gain())
         player.upgrade = new Decimal(0)
@@ -98,11 +99,9 @@ function automate_stuff() {
 function tick() {
     dt = (Date.now() - last_tick) / 1000
     last_tick = Date.now()
-    player.points = player.points.add(pps().times(dt))
     player.total_points = player.total_points.add(pps().times(dt))
     player.money = player.money.add(money_gain().times(dt))
     dg("fps", (1/dt).toFixed(2) + "fps")
-    dg("points", format(player.points))
     dg("upg_effect", format(upgrade_effect(player.upgrade))+" points")
     dg("upg_cost", format(upg_cost(player.upgrade)))
     dg("pps", format(pps()))
@@ -125,9 +124,12 @@ function tick() {
     dgs("ubar2", "width", `${remain(player.upgrade)[1].times(100)}%`)
     dgs("ubar3", "width", `${player.total_points.add(1).log10().min(100)}%`)
     dgs("ubar4", "width", `${player.total_points.add(1).log10().div(5).min(100)}%`)
+
+    player.points = player.points.add(pps().times(dt))
+    dg("points", format(player.points))
     
-    automate_stuff()
     tab_logic()
+    automate_stuff()
 }
 
 setInterval(tick,1,1)
