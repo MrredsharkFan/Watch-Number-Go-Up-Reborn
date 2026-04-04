@@ -7,22 +7,27 @@ function initPlayer() {
         points: new Decimal(0),
         upgrade: new Decimal(0),
         rp: new Decimal(0),
+        el: [new Decimal(0), new Decimal(0)], //eternal_layers
         runes: [new Decimal(0)],
         money: new Decimal(0),
         total_points: new Decimal(0),
         rune_level: new Decimal(0),
-        notation: "Sc"
+        notation: "S"
     }
 }
 
 player = initPlayer()
+console.log(player)
 
 last_tick = Date.now()
+
+el = 1
 
 function pps() {
     var p = upgrade_effect(player.upgrade)
     p = p.times(reb_boost())
     p = p.times(total_rune_eff(player.runes))
+    p = p.times(el_boost())
     return p
  }
 
@@ -62,23 +67,24 @@ function remain(amt) {
 
 function rp_gain() { return player.points.div(1e5).add(1).log10().pow(0.9).pow10().sub(1).pow(0.5) }
 
-function reb_boost(){return player.rp.times(10).add(1).log10().pow(0.75).pow10().pow(0.55)}
+function reb_boost() {
+    return player.rp.times(10).add(1).log10().pow(0.75).pow10().pow(0.55)
+}
+
+function tab_open(name,req) {
+    if (req) {
+        dgs(`${name}_div`, "visibility", "visible")
+        dgs(`${name}_locked`, "visibility", "hidden")
+    } else {
+        dgs(`${name}_div`, "visibility", "hidden")
+        dgs(`${name}_locked`, "visibility", "visible")
+    }
+}
 
 function tab_logic() {
-    if (player.points.gte(1e5)||player.rp.gte(1)) {
-        dgs("reb_div", "visibility", "visible")
-        dgs("reb_locked", "visibility", "hidden")
-    } else {
-        dgs("reb_div", "visibility", "hidden")
-        dgs("reb_locked", "visibility", "visible")
-    }
-    if (player.points.gte(1e30)) {
-        dgs("ru_div", "visibility", "visible")
-        dgs("ru_locked", "visibility", "hidden")
-    } else {
-        dgs("ru_div", "visibility", "hidden")
-        dgs("ru_locked", "visibility", "visible")
-    }
+    tab_open("reb", player.points.gte(1e5) || player.rp.gte(1))
+    tab_open("ru", player.total_points.gte(1e30))
+    tab_open("el", player.total_points.gte("1e10000"))
 }
 
 function rebirth() {
@@ -114,12 +120,18 @@ function tick() {
     dg("rp_eff", format(reb_boost()))
 
     dg("rune_stats", format(total_rune_eff(player.runes)))
-    dg("rune_stats_2", format(luck()))
+    dg("rune_stats_2", format(luck(),4))
     dg("runes", display_rarity_html(player.runes))
     dg("money", format(player.money))
     dg("mps", format(money_gain()))
     dg("rune_cost", format(rune_cost()))
     dg("rup_cost", format(rup_cost()))
+
+    dg("ell", layer_names[el])
+    dg("elp", format(player.el[el]))
+    dg("elp_eff", format(el_boost_ind(new Decimal(player.el[el]),el)))
+    dg("elp_gain", format(get_gain(el)))
+    dg("el_money", format(el_money_boost()))
 
     dgs("ubar", "width", `${player.points.div(upg_cost(player.upgrade)).times(100).min(100)}%`)
     dgs("ubar2", "width", `${remain(player.upgrade)[1].times(100)}%`)
@@ -127,10 +139,13 @@ function tick() {
     dgs("ubar4", "width", `${player.total_points.add(1).log10().div(5).min(100)}%`)
 
     player.points = player.points.add(pps().times(dt))
+    dgs("el_box", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
+    dgs("el_box_alt", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
     dg("points", format(player.points))
     
     tab_logic()
     automate_stuff()
+    fix_latter_zeroes()
 
     player.notation = document.getElementById("notation").value
 }
