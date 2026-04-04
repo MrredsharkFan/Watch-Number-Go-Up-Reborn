@@ -21,13 +21,14 @@ function el_boost(list=player.el) {
 function get_gain(la) {
     if (la == 1) { var b = player.rp.div("1e2000") }
     else {
-        if (player.el.length < la) { return new Decimal(0) }
-        else {
-            var la = new Decimal(la)
-            var b = player.el[la-1].div(la.add(1).pow(1.5).pow10())
-        }
+        var la = new Decimal(la)
+        var b = player.el[la-1]
     }
-    return b.div(100000).add(1).log10().pow(0.5).pow10().sub(1).pow(0.5)
+    var x = b.div(100000).add(1).log10().pow(0.55).pow10().sub(1)
+    if (x.gte(1e3)) {
+        x = x.pow(0.5).times(10**1.5)
+    }
+    return x
 }
 
 function el_reset() {
