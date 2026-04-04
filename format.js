@@ -48,7 +48,7 @@ function format(num, prec = 2) {
     }
     else if (num.lte("10^^5")) {
         if (no[0]=="I"){return `${format(num.log(new Decimal(2).pow(1024)),prec+1)}&infin;`}
-        if (num.lte("e1000000")){return `${num.log10().mod(1).pow10().toFixed(prec)}e${format(num.log10(),0)}`}
+        if (num.lte("e1000000")){return `${num.log10().mod(1).pow10().toFixed(prec)}e${format(num.log10().floor().add(0.01),0)}`}
         return `e${format(num.log10())}`
     }
     else {
