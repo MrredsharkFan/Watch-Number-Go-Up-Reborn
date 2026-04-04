@@ -22,7 +22,8 @@ function get_gain(la) {
     if (la == 1) { var b = player.rp.div("1e2000") }
     else {
         var la = new Decimal(la)
-        var b = player.el[la-1]
+        var b = player.el[la - 1]
+        if (la.gte(4)){b = b.div(b.sub(3).pow10())}
     }
     var x = b.div(100000).add(1).log10().pow(0.55).pow10().sub(1)
     if (x.gte(1e3)) {
@@ -47,4 +48,4 @@ function fix_latter_zeroes() {
     if (player.el[player.el.length-1].eq(0)){player.el.pop()}
 }
 
-function el_money_boost(){return new Decimal(player.el.length).sub(1).pow10()}
+function el_money_boost(){return new Decimal(player.el.length).max(1).sub(1).pow10()}
