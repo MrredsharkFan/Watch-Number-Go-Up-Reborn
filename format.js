@@ -5,6 +5,12 @@ const t1_3 = ",Ce,De,Te,Qae,Qie,Sxe,Spe,Oce,Noe".split(",")
 
 const t2_1 = ",Mi,Mc,Na,Pi,Fm,At,Zp,Yt,Xo".split(",")
 
+const DOT_DIGITS =
+    "⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿" +
+    "⡀⡁⡂⡃⡄⡅⡆⡇⡈⡉⡊⡋⡌⡍⡎⡏⡐⡑⡒⡓⡔⡕⡖⡗⡘⡙⡚⡛⡜⡝⡞⡟⡠⡡⡢⡣⡤⡥⡦⡧⡨⡩⡪⡫⡬⡭⡮⡯⡰⡱⡲⡳⡴⡵⡶⡷⡸⡹⡺⡻⡼⡽⡾⡿" +
+    "⢀⢁⢂⢃⢄⢅⢆⢇⢈⢉⢊⢋⢌⢍⢎⢏⢐⢑⢒⢓⢔⢕⢖⢗⢘⢙⢚⢛⢜⢝⢞⢟⢠⢡⢢⢣⢤⢥⢦⢧⢨⢩⢪⢫⢬⢭⢮⢯⢰⢱⢲⢳⢴⢵⢶⢷⢸⢹⢺⢻⢼⢽⢾⢿" +
+    "⣀⣁⣂⣃⣄⣅⣆⣇⣈⣉⣊⣋⣌⣍⣎⣏⣐⣑⣒⣓⣔⣕⣖⣗⣘⣙⣚⣛⣜⣝⣞⣟⣠⣡⣢⣣⣤⣥⣦⣧⣨⣩⣪⣫⣬⣭⣮⣯⣰⣱⣲⣳⣴⣵⣶⣷⣸⣹⣺⣻⣼⣽⣾⣿"
+
 
 
 
@@ -33,11 +39,44 @@ function ltl(x) {
     return x
 }
 
+function modLog(num) {
+    return num.log(2).mod(1).pow_base(2).add(num.log(2).floor()).sub(1)
+}
+
+function dot_sub(num,prec) {
+    var v = num.log10().mod(1).pow10().div(10)
+    var u = ""
+    for (i = 0; i < prec; i++){
+        v = v.mod(1)
+        v = v.times(254)
+        u = u + DOT_DIGITS[v.floor()]
+    }
+    return u
+}
+
+function dots(num) {
+    if (num.sign == -1) { return '⠁'+dots(num.times(-1))}
+    if (num.eq(0)) { return "⣿"}
+    if (num.lt(1)) { return "⣿"+dots(num.pow(-1))}
+    return "⣿⣿"+dot_sub(num,4)+dot_sub(num.log10().floor(),num.log10().log10().floor().add(1))
+}
+
+function hex(num) {
+    var v = num
+    var j = ""
+    for (i = 0; i < 32; i++) {
+        if (!v.gt(0)) { v = modLog(v.times(-1)).times(-1); j = j + "0" } else { v = modLog(v); j = j + "1" }
+    }
+    return parseInt(j,2).toString(16)
+}
+
 function format(num, prec = 2) {
     var no = player.notation
     if (no[0] == "S") { var lim = no.split(":")[1] }
     else {var lim = new Decimal(0)}
     var num = new Decimal(num)
+    if (no[0] == "H") { return hex(num) }
+    if (no[0] == "D") { return dots(num) }
     if (num.lt(0)) { return `-${format(num.times(-1))}` }
     if (num.lte(1000000)) { return num.toFixed(prec) }
     else if (num.lte(lim)) {

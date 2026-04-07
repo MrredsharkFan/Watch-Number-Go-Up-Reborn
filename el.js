@@ -45,7 +45,10 @@ function el_reset() {
 }
 
 function fix_latter_zeroes() {
+    if (player.el.length == 0) { return null }
     if (player.el[player.el.length-1].eq(0)){player.el.pop()}
 }
 
-function el_money_boost(){return new Decimal(player.el.length).max(1).sub(1).pow10()}
+function el_money_boost() {
+    return new Decimal(player.el.length).max(1).sub(1).pow10()
+}
