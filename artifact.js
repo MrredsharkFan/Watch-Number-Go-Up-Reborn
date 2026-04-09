@@ -25,7 +25,7 @@ function artifact_reset(id) {
 }
 
 function get_art_effect(id,amt=player.artifact[id]) {
-    if (id == 0) { return [amt.div(100).add(1).log10().add(1).log10().div(3).add(1), amt.add(1).pow(0.64)] }
+    if (id == 0) { return [amt.div(100).add(1).log10().add(1).log10().div(3).add(1).min(1.1), amt.add(1).pow(0.64)] }
     if (id == 1) { return amt.add(1).pow(amt.add(1).log10().add(1).log10().add(1.5)) }
     if (id == 2) { return amt.add(1).pow(0.75).sub(1).times(3).add(1) }
     else { return amt.div(2).add(1).log10().div(3).add(1).pow(1.25) }
@@ -34,7 +34,7 @@ function get_art_effect(id,amt=player.artifact[id]) {
 function effect_text(id, amt) {
     if (id == 0) {
         var e = get_art_effect(id, amt)
-        return `^${format(e[0],4)} points, ^${format(e[1],4)} rune multiplier`
+        return `^${format(e[0],4)} points ${e[0].eq(1.1)?" (capped)":""}, ^${format(e[1],4)} rune multiplier`
     }
     var e = get_art_effect(id, amt)
     e = format(e,id==3?4:2)
