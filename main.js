@@ -95,9 +95,11 @@ function automate_stuff() {
 
 function el_automation(dt) { //putting it here because it fits the dt shitposts
     var t = player.el.length
-    if (t >= 4) { player.rp = player.rp.add(rp_gain().times(dt)) }
-    for (var i = 1; i <= t - 4; i++){
-        player.el[i] = player.el[i].add(get_gain(i).times(dt))
+    if (t >= 4) {
+        player.rp = player.rp.add(rp_gain().times(dt))
+        for (var i = 1; i <= t - 4; i++) {
+            player.el[i] = player.el[i].add(get_gain(i).times(dt))
+        }
     }
 }
 
