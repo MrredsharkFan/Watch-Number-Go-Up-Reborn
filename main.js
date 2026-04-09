@@ -93,18 +93,28 @@ function automate_stuff() {
     }
 }
 
+function el_automation(dt) { //putting it here because it fits the dt shitposts
+    var t = player.el.length
+    if (t >= 4) { player.rp = player.rp.add(rp_gain().times(dt)) }
+    for (var i = 1; i <= t - 4; i++){
+        player.el[i] = player.el[i].add(get_gain(i).times(dt))
+    }
+}
+
 
 function tick() {
     dt = (Date.now() - last_tick) / 1000
     last_tick = Date.now()
     player.total_points = player.total_points.add(pps().times(dt))
     player.money = player.money.add(money_gain().times(dt))
+
+    el_automation(dt)
     dg("fps", (1/dt).toFixed(2) + "fps")
     dg("upg_effect", format(upgrade_effect(player.upgrade))+" points")
     dg("upg_cost", format(upg_cost(player.upgrade)))
     dg("pps", format(pps()))
     dg("upg_boost_remain", "Next boost in " + format(remain(player.upgrade)[0]) + " upgrades")
-    dg("eff_upg", format(player.upgrade)+" bought upgrades<br>"+(player.upgrade.gte(1e4)?"Effective upgrades: "+format(eff_upgrade()):""))
+    dg("eff_upg", format(player.upgrade)+" bought upgrades, "+(player.upgrade.gte(1e4)?"Effective upgrades: "+format(eff_upgrade()):""))
 
     dg("rp", format(player.rp))
     dg("rp_gain", format(rp_gain()))
@@ -123,6 +133,10 @@ function tick() {
     dg("elp_eff", format(el_boost_ind(new Decimal(player.el[el]),el)))
     dg("elp_gain", format(get_gain(el)))
     dg("el_money", format(el_money_boost()))
+    dgs("el_box", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
+    dgs("el_box_alt", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
+    dg("el_qol",`Reset to get 100% of ${layer_names[el-3]}/s!`)
+    dgs("el_qol", "visibility", el >= 3 ? "visible" : "hidden")
 
     dg("ar_gain", `+${format(artifact_power()[0])} (${format(artifact_power()[1].times(100))}%)`)
     dgs("ubar5", "width", `${artifact_power()[1].times(100)}%`)
@@ -133,8 +147,6 @@ function tick() {
     dgs("ubar4", "width", `${player.total_points.add(1).log10().div(5).min(100)}%`)
 
     player.points = player.points.add(pps().times(dt))
-    dgs("el_box", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
-    dgs("el_box_alt", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
     dg("points", format(player.points))
     
     tab_logic()
