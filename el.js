@@ -1,5 +1,6 @@
 const layer_names = ["Rebirth", "Ascension", "Transcension", "Reincarnation", "Velocity", "Accelration", "Jerk", "Infinity", "Eternal", "Quantum", "Reality", "Ghostify",
-    "Hydraulic", "Chromatic","Affinity","Void","Heaven"
+    "Hydraulic", "Chromatic", "Affinity", "Void", "Heaven", "Abtruse", "Dilemma", "Worldly", "Ending", "Testifical", "Pentimento", "Rhythmic", "Absolute", "Omega", "Epsilon", "Zeta",
+    "Eta","Internal","External","Incremental","Recursion","Derivative","Hell"
 ]
 
 function el_boost_ind(amt, la) {
