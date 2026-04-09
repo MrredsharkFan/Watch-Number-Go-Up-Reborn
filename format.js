@@ -12,7 +12,13 @@ const DOT_DIGITS =
     "⣀⣁⣂⣃⣄⣅⣆⣇⣈⣉⣊⣋⣌⣍⣎⣏⣐⣑⣒⣓⣔⣕⣖⣗⣘⣙⣚⣛⣜⣝⣞⣟⣠⣡⣢⣣⣤⣥⣦⣧⣨⣩⣪⣫⣬⣭⣮⣯⣰⣱⣲⣳⣴⣵⣶⣷⣸⣹⣺⣻⣼⣽⣾⣿"
 
 
-
+//i know NOTHING about regex so i let AI gen this part
+//could've copied from ad notations for more dignity but i suck
+function commaFormat(num) {
+    var v = num.toString().split(".")
+    v[0] = v[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    return v.join(".")
+}
 
 function standard(n, la) {
     var n = new Decimal(n)
@@ -78,7 +84,7 @@ function format(num, prec = 2) {
     if (no[0] == "H") { return hex(num) }
     if (no[0] == "D") { return dots(num) }
     if (num.lt(0)) { return `-${format(num.times(-1))}` }
-    if (num.lte(1000000)) { return num.toFixed(prec) }
+    if (num.lte(1000000000)) { return commaFormat(num.toFixed(prec)) }
     else if (num.lte(lim)) {
         var n = num.log10().div(3).floor().sub(1)
         var m = num.log10().mod(3).pow10()
@@ -87,7 +93,7 @@ function format(num, prec = 2) {
     }
     else if (num.lte("10^^5")) {
         if (no[0]=="I"){return `${format(num.log(new Decimal(2).pow(1024)),prec+1)}&infin;`}
-        if (num.lte("e1000000")) { return `${num.log10().mod(1).pow10().toFixed(prec)}e${format(num.log10().floor().add(0.01), 0)}` }
+        if (num.lte("e1000000000")) { return `${num.log10().mod(1).pow10().toFixed(prec)}e${format(num.log10().floor().add(0.01), 0)}` }
         if (num.lte("ee1000000")) { return `e${format(num.log10(), prec + 1)}` }
         return `e${format(num.log10(),prec)}`
     }
