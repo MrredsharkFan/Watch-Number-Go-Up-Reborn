@@ -12,9 +12,17 @@
     .tab {
         position: fixed; width: 80%; height: 80%; left:10%; top: 110%; background-image: linear-gradient(#000000cf,#00000080); outline-color: #ffffff; outline-width: 10%; outline-style: solid; color: white; transition-duration: 0.2s; text-align: center;
     }
+
+    .ar_button {
+        background-color: #00000080;
+        color: white
+    }
 </style>
 <html style="font-family: Arial; background-color: hsl(115, 14%, 84%);">
-    <body>
+    <body style="text-wrap: none; display: flex">
+
+
+
         <div class="rc" style="position: fixed; width: 40%; height: 20%; right: 30%; top: 40%; background-color: #eee">
             <div style="position: absolute; top: 5%; height: 20%;background-color: #ccc; width: 50%; text-align: center;">
                 <span id="eff_upg" style="font-size: 100%"></span><br>
@@ -50,6 +58,11 @@
             </div>
             <span style="position: absolute">Unlock auto buy max at 1.000e500 total points</span>
         </div>
+
+
+
+
+
         <div class="rc" style="position: fixed; width: 28%; height: 35%; left: 71%; top: 25%; background-color: #a46">
             <div id="reb_locked" style="visibility: hidden; position: fixed;">
                 Reach 100000 points to unlock.
@@ -65,6 +78,11 @@
         <div class="rc" style="position: fixed; width: 28%; height: 3%; left: 71%; top: 63%; background-color: hsl(180,50%,50%); transition-duration: 0.1s;" id="el_box_alt">
             $ gain x<span id="el_money">1.00</span>&NonBreakingSpace;(based on highest layer)
         </div>
+
+
+
+
+
         <div class="rc" style="position: fixed; width: 28%; height: 30%; left: 71%; top: 67%; background-color: hsl(180,50%,50%); transition-duration: 0.1s;" id="el_box">
             <div id="el_locked" style="visibility: hidden; position: fixed;">
                 Reach 1.00e10000 points to unlock.
@@ -81,11 +99,20 @@
                 <button style="position: absolute; width: 40%; height: 10%; top: 85%; left: 55%" onclick="el = el!=player.el.length?el+1:el">Next layer</button>
             </div>
         </div>
-        <div class="rc" style="position: fixed; width: 28%; height: 94%; left:1%; top: 3%; background-color: #af7e67">
+
+
+        <span style="position: fixed; top: 9999999%">
+            Hopefully no one sees this.
+            Those spaces are for... more styling ig
+        </span>
+
+
+
+        <div class="rc" style="position: fixed; width: 28%; height: 94%; left:1%; top: 3%; background-color: #af7e67" id="ru">
             <div id="ru_locked" style="visibility: hidden; position: fixed;">
                 Reach 1.000e30 points to unlock.
             </div>
-            <div id="ru_div" style="visibility: hidden; position:  absolute; width: 100%; height: 100%">
+            <div id="ru_div" style="visibility: hidden; position: absolute; width: 100%; height: 100%">
                 <div class="rc" style="background-color: #cf9e87; position: absolute; top: 3%; width: 90%; left: 5%; height: 4%; z-index: 5;">
                     <span id="money"></span>$&NonBreakingSpace;(<span id="mps"></span>/s)
                 </div>
@@ -106,10 +133,40 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
+        <div style="position: fixed; width: 69%; height: 20%; left:30%; top: 3%; background-color: #c17764" id="ar">
+            <div id="ar_locked" style="visibility: hidden; position: absolute">
+                Reach 1.000e67,000 points to unlock (NOT BRAINROT)
+            </div>
+            <div id="ar_div" style="visibility: hidden; position: absolute; width: 100%; height: 100%">
+                <div class="rc" style="background-color: #ff8899; position: absolute; text-align: center; width: 28%; left: 2%; height: 10%; top: 5%">
+                    <span id="ar_gain" style="z-index: 5"></span>
+                    <div id="ubar5"
+                        style="position: absolute; height: 100%; background-color: white; width: 0%; z-index: 3; transition-duration: 0.1s;">
+                    </div>
+                </div>
+                <div style="background-color: #ff8899; position: absolute; text-align: center; width: 28%; left: 2%; height: 75%; top: 20%">
+                    Resetting for an artifact resets runes and money, but exchange for great powers<br><br><i style="font-size: 75%">Also does a rebirth</i>
+                </div>
+                <div id="ar_btn" style="position: absolute; width: 100%; height: 100%"></div>
+            </div>
+        </div>
+
+
+
         <div class="rc" style="position: fixed; width: 40%; height: 7%; left:30%; top: 90%; background-color: #000000">
             <button onclick="tab('Settings')">Settings</button>
             <button onclick="tab('About')">About</button>
         </div>
+
+
+
+
+
         <div class="tab" id="Settings">
             <br><br>
             <span style="font-size: 250%">Settings</span><hr>
@@ -131,15 +188,17 @@
         <div class="tab" id="About">
             <br><br>
             <span style="font-size: 50px">Watch Number Go Up: <i>Reborn</i></span><hr>
-            Made by <span style="font-size: 25px">Termiunsfinity</span> with help from <span style="font-size: 25px">W3School</span><hr>
+            Made by <span style="font-size: 25px">Termiunsfinity</span><br><span style="opacity: 25%">(and Gemini for the artifact idea, shhhhhhhhhhhhh)</span><hr>
             Inspired by Roblox game <span style="font-size: 25px">Watch Number Go Up</span><br><i>and the personal opinion that the game is too p2w</i><br>
         </div>
     </body>
 </html>
 <script src="break_eternity.min.js"></script>
+<script src="essential_shit.js"></script>
 <script src="format.js"></script>
-<script src="main.js"></script>
+<script src="artifact.js"></script>
 <script src="runes.js"></script>
 <script src="save.js"></script>
 <script src="tabs.js"></script>
+<script src="main.js"></script>
 <script src="el.js"></script>

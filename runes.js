@@ -25,6 +25,7 @@ function total_rune_eff(data) {
     for (i in data) {
         j = j.times(indiv_rune_eff(data[i], i))
     }
+    j = j.pow(get_art_effect(0)[1])
     return j
 }
 
@@ -40,7 +41,9 @@ function display_rarity_html(data) {
 
 function luck() {
     var l = new Decimal(3)
-    l = l.root(player.rune_level.div(3).add(1))
+    var l2 = player.rune_level.div(3).add(1)
+    l2 = l2.times(get_art_effect(3))
+    l = l.root(l2)
     return l
 }
 
@@ -72,7 +75,19 @@ function downgrade(){player.rune_level = player.rune_level.sub(1).max(0)}
 function money_gain() {
     var m = player.points.add(676767).log10().div(10).sub(3).max(0).add(1).sub(1)
     m = m.times(el_money_boost())
+    m = m.times(get_art_effect(2))
     return m
- }
+}
+ 
+
 function rune_cost() { return player.rune_level.div(1.5).add(1).pow10() }
 function rup_cost() { return player.rune_level.div(1.4).add(3).pow10() }
+
+function artifact_power(data=player.runes) {
+    var j = new Decimal(0)
+    for (i in data) {
+        j = j.add(indiv_rune_eff(data[i], i).add(1).log10().pow(new Decimal(i).add(1).log10().add(1)).times(i))
+    }
+    j = j.pow(0.7).div(1000)
+    return [j.floor(),j.mod(1)]
+}

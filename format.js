@@ -82,13 +82,14 @@ function format(num, prec = 2) {
     else if (num.lte(lim)) {
         var n = num.log10().div(3).floor().sub(1)
         var m = num.log10().mod(3).pow10()
-        if (num.lte("e3e9")) { return `${format(m)} ${standard(n, new Decimal(1))}` }
+        if (num.lte("e3e9")) { return `${format(m,prec)} ${standard(n, new Decimal(1))}` }
         else { return `${standard(n, new Decimal(1))}s` }
     }
     else if (num.lte("10^^5")) {
         if (no[0]=="I"){return `${format(num.log(new Decimal(2).pow(1024)),prec+1)}&infin;`}
-        if (num.lte("e1000000")){return `${num.log10().mod(1).pow10().toFixed(prec)}e${format(num.log10().floor().add(0.01),0)}`}
-        return `e${format(num.log10())}`
+        if (num.lte("e1000000")) { return `${num.log10().mod(1).pow10().toFixed(prec)}e${format(num.log10().floor().add(0.01), 0)}` }
+        if (num.lte("ee1000000")) { return `e${format(num.log10(), prec + 1)}` }
+        return `e${format(num.log10(),prec)}`
     }
     else {
         return num.mag < 1e10 ? `${format(Math.log10(num.mag))}F${format(num.layer,0)}` : `${format(Math.log10(Math.log10(num.mag)))}F${format(num.layer+1,0)}`

@@ -1,3 +1,27 @@
+
+
+function initPlayer() {
+    return {
+        points: new Decimal(0),
+        upgrade: new Decimal(0),
+        rp: new Decimal(0),
+        el: [new Decimal(0), new Decimal(0)], //eternal_layers
+        runes: [new Decimal(0)],
+        money: new Decimal(0),
+        total_points: new Decimal(0),
+        rune_level: new Decimal(0),
+        notation: "S",
+        artifact: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)]
+    }
+}
+
+player = initPlayer()
+
+
+
+
+
+
 function save() {
     localStorage.setItem("wngu-r2",JSON.stringify(player))
 }
@@ -6,7 +30,7 @@ setInterval(save, 1000, 1)
 function load() {
     var u = JSON.parse(localStorage.getItem("wngu-r2"))
     const player_vars_d = ["points", "rp", "upgrade", "money", "total_points", "rune_level"]
-    const player_vars_l = ["runes", "el"]
+    const player_vars_l = ["runes", "el","artifact"]
     const player_vars_str = ["notation"]
     console.log(JSON.parse(localStorage.getItem("wngu-r2")))
     for (var i in player_vars_d) {

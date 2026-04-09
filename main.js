@@ -1,22 +1,6 @@
-function dg(id, context) { document.getElementById(id).innerHTML = context }
-function dgc(id) { return document.getElementById(id)}
-function dgs(id, param, context) {document.getElementById(id).style[param] = context}
 
-function initPlayer() {
-    return {
-        points: new Decimal(0),
-        upgrade: new Decimal(0),
-        rp: new Decimal(0),
-        el: [new Decimal(0), new Decimal(0)], //eternal_layers
-        runes: [new Decimal(0)],
-        money: new Decimal(0),
-        total_points: new Decimal(0),
-        rune_level: new Decimal(0),
-        notation: "S"
-    }
-}
 
-player = initPlayer()
+
 console.log(player)
 
 last_tick = Date.now()
@@ -28,6 +12,7 @@ function pps() {
     p = p.times(reb_boost())
     p = p.times(total_rune_eff(player.runes))
     p = p.times(el_boost())
+    p = p.pow(get_art_effect(0)[0])
     return p
  }
 
@@ -81,10 +66,16 @@ function tab_open(name,req) {
     }
 }
 
+function tab_visible(name, req) {
+    dgs(name, "visibility", req ? "visible" : "hidden")
+}
+
 function tab_logic() {
     tab_open("reb", player.points.gte(1e5) || player.rp.gte(1))
     tab_open("ru", player.total_points.gte(1e30))
     tab_open("el", player.total_points.gte("1e10000"))
+    tab_open("ar", player.total_points.gte("1e67000"))
+    dgs("el_box_alt","visibility",player.total_points.gte("1e10000")?"visible":"hidden")
 }
 
 function rebirth() {
@@ -133,6 +124,9 @@ function tick() {
     dg("elp_gain", format(get_gain(el)))
     dg("el_money", format(el_money_boost()))
 
+    dg("ar_gain", `+${format(artifact_power()[0])} (${format(artifact_power()[1].times(100))}%)`)
+    dgs("ubar5", "width", `${artifact_power()[1].times(100)}%`)
+
     dgs("ubar", "width", `${player.points.div(upg_cost(player.upgrade)).times(100).min(100)}%`)
     dgs("ubar2", "width", `${remain(player.upgrade)[1].times(100)}%`)
     dgs("ubar3", "width", `${player.total_points.add(1).log10().min(100)}%`)
@@ -146,6 +140,8 @@ function tick() {
     tab_logic()
     automate_stuff()
     fix_latter_zeroes()
+
+    draw_artifact()
 
     player.notation = document.getElementById("notation").value
 }
