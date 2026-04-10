@@ -17,12 +17,26 @@
         background-color: #00000080;
         color: white
     }
+
+    .tabs {
+        width: 16.67%;
+        height: 50%;
+        font-size: 25px;
+    }
+
+    .poggers {
+        position: fixed;
+    }
+
+    .save_bank {
+        width: 20%; height: 10%
+    }
 </style>
-<html style="font-family: Arial; background-color: hsl(115, 14%, 84%);">
+<html style="font-family: Arial; background-color: hsl(90,100%,95%);">
     <body style="text-wrap: none; display: flex">
 
 
-
+        <div id="p1" class="poggers" style="translate: none">
         <div class="rc" style="position: fixed; width: 40%; height: 20%; right: 30%; top: 40%; background-color: #eee">
             <div style="position: absolute; top: 5%; height: 20%;background-color: #ccc; width: 90%; text-align: center;">
                 <span id="eff_upg" style="font-size: 100%"></span><br>
@@ -170,7 +184,7 @@
                     Currently: <span id="rune_col_eff"></span>
                 </button>
                 <button style='position: absolute; width: 90%; left: 5%; top: 55%; height: 40%' onclick="el_col()">
-                    Reach <b id="el_col"></b> layer to rune collapse!<br>
+                    Reach <b id="el_col"></b> layer to layer collapse!<br>
                     <span style="font-size: 80%">Collapsing will remove all your layer currencies and make the layers scale harder, but with better
                         rewards<br>(In terms of effect)</span><br>
                     Currently: <span id="el_col_eff"></span>
@@ -184,10 +198,21 @@
 
 
 
+        </div>
         <div class="rc" style="position: fixed; width: 40%; height: 7%; left:30%; top: 90%; background-color: #000000">
-            <button onclick="tab('Settings')">Settings</button>
-            <button onclick="tab('About')">About</button>
-            <button onclick="tab('Hall')" style="background-color: hsl(0,100%,50%)" id="hallbtn"><b>HALL OF DAMN</b></button>
+            <button class="tabs" onclick="page = page!=0?page-1:0; dgs(`p${page+1}`,'translate','none'); dgs(`p${page+2}`,'translate','999990px')">&larr;</button>
+            <button class="tabs" onclick="tab('Settings')">Settings</button>
+            <button class="tabs" onclick="tab('About')">About</button>
+            <button class="tabs" onclick="tab('Hall')" style="background-color: hsl(0,100%,50%); font-size: 15px;"
+                id="hallbtn"><b>HALL OF DAMN</b></button>
+            <button class="tabs" onclick="page = page!=player.ppt?page+1:page; dgs(`p${page+1}`,'translate','none'); dgs(`p${page}`,'translate','999990px')">&rarr;</button>
+        </div>
+        <div id="p2" style="translate: none">
+            
+
+
+
+
         </div>
 
 
@@ -211,16 +236,23 @@
                 <option value="S:0">Scientific</option>
                 <option value="D">Dots</option>
             </select><br>
-            Number of digits until scientific notation: <input type="range" min="3" max="15" value="6" id="comma_slider"></input><span id="comma_value"></span>
+            Number of digits until scientific notation: <input type="range" min="3" max="15" value="6" id="comma_slider"></input><span id="comma_value"></span><hr>
+            <br><span style="font-size: 250%">Save bank</span><br>Where you may get back progress from a ... NaN, I guess<br>
+            <button class="save_bank" onclick="bank(0)">Rune Start<br>(e30 points)</button>
+            <button class="save_bank" onclick="bank(1)">Mid Collapse<br>(ee18 points)</button>
         </div>
+
         <div class="tab" id="About">
             <br><br>
             <span style="font-size: 50px">Watch Number Go Up: <i>Reborn</i></span><hr>
             Made by <span style="font-size: 25px">Termiunsfinity</span><br><span style="opacity: 25%">(and Gemini for the artifact idea, shhhhhhhhhhhhh)</span><hr>
             Inspired by Roblox game <span style="font-size: 25px">Watch Number Go Up</span><br><i>and the personal opinion that the game is too p2w</i><br>
         </div>
+
         <div class="tab" id="Hall">
             <span style="position: absolute; font-size: 150%; left: 25%; width: 50%; top: 10%; height: 30%; background-color: #00000080; outline: solid; outline-width: 10px; outline-color: white;">Congrats to Coolppl_idk for getting e2Qa points prior to the collapse update<br>As a reward, I will disassemble Grow Your Planet</span>
+            <div onclick="player.ppt = player.points.gte('ee21')||player.ppt==1?1:0" style="position: absolute; width: 90%; height: 3%; top: 86%; left: 5%; background-color: hsl(0,50%,50%);" id="qual"></div>
+            <button style="position: absolute; width: 90%; height: 3%; top: 90%; left: 5%">Prove yourself... Escape the endless runes... MTBeMSBTZXh0aWxsaW9u</button>
         </div>
     </body>
 </html>

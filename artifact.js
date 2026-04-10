@@ -3,14 +3,14 @@ const artifact_names = ["point","omega","money","luck"]
 
 function draw_artifact(input=player.artifact) {
     for (var i in input) {
-        dg(`a${i}`,`${format(input[i])} ${artifact_names[i]} artifacts<br>${effect_text(i,input[i])}`)
+        dg(`a${i}`,`${format(input[i])} ${artifact_names[i]} artifacts &rarr; ${effect_text(i,input[i])}`)
     }
 }
 
 function artifact_button_load() {
     var t = ""
     for (var i = 0; i <= 3; i++) {
-        t = t+`<button onclick="artifact_reset(${i})" class="ar_button" id="a${i}" style="top: ${i*24+2}%; width: 66%; left: 32%; height: 24%; position: absolute"></button>`
+        t = t+`<button onclick="artifact_reset(${i})" class="ar_button" id="a${i}" style="top: ${i*24+2}%; width: 66%; left: 32%; height: 12%; position: absolute"></button>`
     }
     return t
 }

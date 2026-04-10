@@ -115,68 +115,76 @@ function tick() {
     dt = (Date.now() - last_tick) / 1000
     TIME = TIME + dt
     last_tick = Date.now()
-    player.total_points = player.total_points.add(pps().times(dt))
-    player.money = player.money.add(money_gain().times(dt))
+    try {
+        player.total_points = player.total_points.add(pps().times(dt))
+        player.money = player.money.add(money_gain().times(dt))
 
-    el_automation(dt)
-    dg("fps", (1/dt).toFixed(2) + "fps")
-    dg("upg_effect", format(upgrade_effect(player.upgrade))+" points")
-    dg("upg_cost", format(upg_cost(player.upgrade)))
-    dg("pps", OoM_pt(dt).gte(100)?format(OoM_pt(dt))+" OoMs/s":format(pps())+"/s")
-    dg("upg_boost_remain", "Next boost in " + format(remain(player.upgrade)[0]) + " upgrades")
-    dg("eff_upg", format(player.upgrade)+" bought upgrades, "+(player.upgrade.gte(1e4)?"Effective upgrades: "+format(eff_upgrade()):""))
+        el_automation(dt)
+        dg("fps", (1 / dt).toFixed(2) + "fps")
+        dg("upg_effect", format(upgrade_effect(player.upgrade)) + " points")
+        dg("upg_cost", format(upg_cost(player.upgrade)))
+        dg("pps", OoM_pt(dt).gte(100) ? format(OoM_pt(dt)) + " OoMs/s" : format(pps()) + "/s")
+        dg("upg_boost_remain", "Next boost in " + format(remain(player.upgrade)[0]) + " upgrades")
+        dg("eff_upg", `${format(player.upgrade)} bought upgrades, ${(player.upgrade.gte(1e4) ? "Effective upgrades: " + format(eff_upgrade()) : "")}<br>Tier ${format(player.upgrade.pow(0.5).floor())}`)
 
-    dg("rp", format(player.rp))
-    dg("rp_gain", format(rp_gain()))
-    dg("rp_eff", format(reb_boost()))
+        dg("rp", format(player.rp))
+        dg("rp_gain", format(rp_gain()))
+        dg("rp_eff", format(reb_boost()))
 
-    dg("rune_stats", format(total_rune_eff(player.runes)))
-    dg("rune_stats_2", format(luck(),4))
-    dg("runes", display_rarity_html(player.runes))
-    dg("money", format(player.money))
-    dg("mps", format(money_gain()))
-    dg("rune_cost", format(rune_cost()))
-    dg("rup_cost", format(rup_cost()))
+        dg("rune_stats", format(total_rune_eff(player.runes)))
+        dg("rune_stats_2", format(luck(), 4))
+        dg("runes", display_rarity_html(player.runes))
+        dg("money", format(player.money))
+        dg("mps", format(money_gain()))
+        dg("rune_cost", format(rune_cost()))
+        dg("rup_cost", format(rup_cost()))
 
-    dg("ell", get_actual_layer_name(el))
-    dg("elp", format(player.el[el]))
-    dg("elp_eff", format(el_boost_ind(new Decimal(player.el[el]),el)))
-    dg("elp_gain", format(get_gain(el)))
-    dg("el_money", format(el_money_boost()))
+        dg("ell", get_actual_layer_name(el))
+        dg("elp", format(player.el[el]))
+        dg("elp_eff", format(el_boost_ind(new Decimal(player.el[el]), el)))
+        dg("elp_gain", format(get_gain(el)))
+        dg("el_money", format(el_money_boost()))
 
-    dg("rune_col", actual_name(new Decimal(100)))
-    dg("rune_col_eff", `Rune effect & scaling: x${format(rune_col_power())}, Artifacts: x${format(rune_col_art_power())}`)
-    dg("rune_col_chance", format(luck().pow(100)))
+        dg("rune_col", actual_name(new Decimal(100)))
+        dg("rune_col_eff", `Rune effect & scaling: x${format(rune_col_power())}, Artifacts: x${format(rune_col_art_power())}`)
+        dg("rune_col_chance", format(luck().pow(100)))
 
-    dg("el_col", get_actual_layer_name(new Decimal(17)))
-    dg("el_col_eff", `Scaling: x${format(el_effect()[0])}, Effect: x${format(el_effect()[1])}`)
+        dg("el_col", get_actual_layer_name(new Decimal(17)))
+        dg("el_col_eff", `Scaling: x${format(el_effect()[0])}, Effect: x${format(el_effect()[1])}`)
 
-    dgs("el_box", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
-    dgs("el_box_alt", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
-    dg("el_qol",`Reset to get 100% of ${get_actual_layer_name(el-3)}/s!`)
-    dgs("el_qol", "visibility", el >= 3 ? "visible" : "hidden")
+        dgs("el_box", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
+        dgs("el_box_alt", "background-color", `hsl(${el * 30 + 180},80%,90%)`)
+        dg("el_qol", `Reset to get 100% of ${get_actual_layer_name(el - 3)}/s!`)
+        dgs("el_qol", "visibility", el >= 3 ? "visible" : "hidden")
 
-    dg("ar_gain", `+${format(artifact_power()[0])} (${format(artifact_power()[1].times(100))}%)`)
-    dgs("ubar5", "width", `${artifact_power()[1].times(100)}%`)
+        dg("ar_gain", `+${format(artifact_power()[0])} (${format(artifact_power()[1].times(100))}%)`)
+        dgs("ubar5", "width", `${artifact_power()[1].times(100)}%`)
 
-    dgs("ubar", "width", `${player.points.div(upg_cost(player.upgrade)).times(100).min(100)}%`)
-    dgs("ubar2", "width", `${remain(player.upgrade)[1].times(100)}%`)
-    dgs("ubar3", "width", `${player.total_points.add(1).log10().min(100)}%`)
-    dgs("ubar4", "width", `${player.total_points.add(1).log10().div(5).min(100)}%`)
+        dgs("ubar", "width", `${player.points.div(upg_cost(player.upgrade)).times(100).min(100)}%`)
+        dgs("ubar2", "width", `${remain(player.upgrade)[1].times(100)}%`)
+        dgs("ubar3", "width", `${player.total_points.add(1).log10().min(100)}%`)
+        dgs("ubar4", "width", `${player.total_points.add(1).log10().div(5).min(100)}%`)
 
-    player.points = player.points.add(pps().times(dt))
-    dg("points", format(player.points))
+
+        dg("qual", `${format(player.total_points.add(1).log10().add(1).log10().div(21).times(100).min(100), 5)}%`)
+        dgs("qual", "width", `${player.total_points.add(1).log10().add(1).log10().div(21).pow(3).times(90).min(90)}%`)
+        dgs("qual", "background-color", `hsl(${player.total_points.add(1).log10().add(1).log10().div(21).pow(3).times(150).min(150)},100%,25%)`)
+
+        player.points = player.points.add(pps().times(dt))
+        dg("points", format(player.points))
     
-    tab_logic()
-    automate_stuff()
-    fix_latter_zeroes()
+        tab_logic()
+        automate_stuff()
+        fix_latter_zeroes()
 
-    draw_artifact()
+        draw_artifact()
 
-    player.notation = document.getElementById("notation").value
-    player.comma_format = document.getElementById("comma_slider").value
-    dg("comma_value", player.comma_format)
-    dgs("hallbtn", "background-color", `hsl(${TIME*1000%360},100%,50%)`)
+        player.notation = document.getElementById("notation").value
+        player.comma_format = document.getElementById("comma_slider").value
+        dg("comma_value", player.comma_format)
+        dgs("hallbtn", "background-color", `hsl(${TIME * 1000 % 360},100%,50%)`)
+    }
+    catch (err){detectNaN()}
 }
 
 setInterval(tick,1,1)
