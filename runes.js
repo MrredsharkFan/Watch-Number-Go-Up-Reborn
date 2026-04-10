@@ -47,7 +47,7 @@ function luck() {
     return l
 }
 
-function roll_rarity() {return new Decimal(1 / Math.random()).log(luck()).floor()}
+function roll_rarity() {return new Decimal(1 / Math.random()).log(luck()).floor().min(300)}
 
 function actual_roll() {
     if (player.money.gte(rune_cost())){
