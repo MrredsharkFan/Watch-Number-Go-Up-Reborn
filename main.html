@@ -29,7 +29,7 @@
             </div>
             <div style="background-color: #ccc; width: 70%; text-align: center;">
                 <span id="points" style="font-size: 25px"></span> points<br>
-                <span id="pps" style="font-size: 20px"></span>/s
+                <span id="pps" style="font-size: 20px"></span>
             </div>
             <div style="position: absolute; top: 85%; height: 10%;background-color: #ccc; width: 50%; text-align: center;">
                 <span id="fps" style="font-size: 100%"></span><br>
@@ -159,6 +159,31 @@
 
 
 
+
+
+        <div style="position: fixed; width: 40%; height: 25%; right: 30%; top: 63%; background-color: #ff7">
+            <div id="col_locked" style="visibility: hidden;">Reach e1.000B points to unlock.</div>
+            <div id="col_div" style="visibility: hidden;">
+                <button style='position: absolute; width: 90%; left: 5%; top: 5%; height: 40%' onclick="rune_col()">
+                    Reach <b id="rune_col"></b> rune to rune collapse! (Chance: 1/<span id="rune_col_chance"></span>)<br>
+                    <span style="font-size: 80%">Collapsing will remove all your runes and make the runes scale harder, but with better rewards<br>(In terms of effect and artifact gain)</span><br>
+                    Currently: <span id="rune_col_eff"></span>
+                </button>
+                <button style='position: absolute; width: 90%; left: 5%; top: 55%; height: 40%' onclick="el_col()">
+                    Reach <b id="el_col"></b> layer to rune collapse!<br>
+                    <span style="font-size: 80%">Collapsing will remove all your layer currencies and make the layers scale harder, but with better
+                        rewards<br>(In terms of effect)</span><br>
+                    Currently: <span id="el_col_eff"></span>
+                </button>
+            </div>
+        </div>
+
+
+
+
+
+
+
         <div class="rc" style="position: fixed; width: 40%; height: 7%; left:30%; top: 90%; background-color: #000000">
             <button onclick="tab('Settings')">Settings</button>
             <button onclick="tab('About')">About</button>
@@ -184,7 +209,8 @@
                 <option value="H">Hex</option>
                 <option value="S:0">Scientific</option>
                 <option value="D">Dots</option>
-            </select>
+            </select><br>
+            Number of digits until scientific notation: <input type="range" min="3" max="15" value="6" id="comma_slider"></input><span id="comma_value"></span>
         </div>
         <div class="tab" id="About">
             <br><br>

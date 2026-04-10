@@ -8,15 +8,18 @@ const rune_rarity_name = [
 function actual_name(num) {
     const r = rune_rarity_name.length
     num = new Decimal(num)
+    num = num.times(rune_col_power().round())
     var u = num.mod(r)
     var v = num.div(r).floor()
-    return `${rune_rarity_name[u]}[${format(v)}]`
+    var q = `${rune_rarity_name[u]}`
+    if (v.gte(0.5)) { q = `${q}+${v}` }
+    return q
 }
 
 
 function indiv_rune_eff(amt, tier) {
     var amt = new Decimal(amt)
-    var tier = new Decimal(tier);
+    var tier = new Decimal(tier).times(rune_col_power());
     return amt.add(1).pow(tier.div(3).add(1)).sub(1).times(tier.add(1).pow(0.5).sub(4).pow10()).add(1)
 }
 
@@ -34,7 +37,7 @@ function display_rarity_html(data) {
     var s = Math.max(data.length - 14, 0)
     var data = data.slice(s)
     for (var i in data) {
-        q = q+`<div style="position: absolute; opacity: ${data[i].eq(0)?50:100}%; height: 5%; font-size: 80%; width: 90%; top:${5+i*6}%; background-color: hsl(${(Number(i)+Number(s))*70},50%,90%)">${format(data[i])} ${actual_name(Number(i)+Number(s))} &rarr; x${format(indiv_rune_eff(data[i],Number(i)+Number(s)))} points</div>`
+        q = q+`<div style="position: absolute; opacity: ${data[i].eq(0)?50:100}%; height: 5%; font-size: 80%; width: 90%; top:${5+i*6}%; background-color: hsl(${(Number(i)+Number(s))*70},50%,90%)">${format(data[i])} ${actual_name(Number(i)+Number(s))} [#${format(new Decimal(Number(i)+Number(s)).times(rune_col_power()))}]&rarr; x${format(indiv_rune_eff(data[i],Number(i)+Number(s)))} points</div>`
     }
     return q
 }
@@ -42,12 +45,12 @@ function display_rarity_html(data) {
 function luck() {
     var l = new Decimal(3)
     var l2 = player.rune_level.div(3).add(1)
-    l2 = l2.times(get_art_effect(3))
+    l2 = l2.times(get_art_effect(3)).div(rune_col_power())
     l = l.root(l2)
     return l
 }
 
-function roll_rarity() {return new Decimal(1 / Math.random()).log(luck()).floor().min(300)}
+function roll_rarity() {return new Decimal(1 / Math.random()).log(luck()).floor().min(100)}
 
 function actual_roll() {
     if (player.money.gte(rune_cost())){
@@ -88,6 +91,18 @@ function artifact_power(data=player.runes) {
     for (i in data) {
         j = j.add(indiv_rune_eff(data[i], i).add(1).log10().pow(new Decimal(i).add(1).log10().add(1)).times(i))
     }
-    j = j.pow(0.7).div(1000)
+    j = j.pow(0.7).div(1000).times(rune_col_art_power())
     return [j.floor(),j.mod(1)]
+}
+
+
+//collapse shit
+function rune_col_power(amt = player.rune_col) { return amt.pow_base(2) }
+function rune_col_art_power(amt = player.rune_col) {return amt.pow_base(new Decimal(2).add(amt))}
+
+function rune_col() {
+    if (player.runes.length >= 100) {
+        player.runes = []
+        player.rune_col = player.rune_col.add(1)
+    }
 }

@@ -83,8 +83,10 @@ function format(num, prec = 2) {
     var num = new Decimal(num)
     if (no[0] == "H") { return hex(num) }
     if (no[0] == "D") { return dots(num) }
+    if (num.eq(0)) {return num.toFixed(prec)}
     if (num.lt(0)) { return `-${format(num.times(-1))}` }
-    if (num.lte(1000000000)) { return commaFormat(num.toFixed(prec)) }
+    if (num.lt(0.001)){return `${format(num.pow(-1))}<sup>-1</sup>`}
+    if (num.lte(`e${player.comma_format}`)) { return commaFormat(num.toFixed(prec)) }
     else if (num.lte(lim)) {
         var n = num.log10().div(3).floor().sub(1)
         var m = num.log10().mod(3).pow10()
@@ -93,8 +95,8 @@ function format(num, prec = 2) {
     }
     else if (num.lte("10^^5")) {
         if (no[0]=="I"){return `${format(num.log(new Decimal(2).pow(1024)),prec+1)}&infin;`}
-        if (num.lte("e1000000000")) { return `${num.log10().mod(1).pow10().toFixed(prec)}e${format(num.log10().floor().add(0.01), 0)}` }
-        if (num.lte("ee1000000")) { return `e${format(num.log10(), prec + 1)}` }
+        if (num.lte(`ee${player.comma_format}`)) { return `${num.log10().mod(1).pow10().toFixed(prec)}e${format(num.log10().floor().add(0.01), 0)}` }
+        if (num.lte(`eee${player.comma_format}`)) { return `e${format(num.log10(), prec + 1)}` }
         return `e${format(num.log10(),prec)}`
     }
     else {

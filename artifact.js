@@ -26,7 +26,7 @@ function artifact_reset(id) {
 
 function get_art_effect(id,amt=player.artifact[id]) {
     if (id == 0) { return [amt.div(100).add(1).log10().add(1).log10().div(3).add(1).min(1.1), amt.add(1).pow(0.64).pow(amt.sub(500).div(100).max(0).add(1).log10().div(2).add(1))] }
-    if (id == 1) { return amt.add(1).pow(amt.add(1).log10().add(1).log10().add(1.5)) }
+    if (id == 1) { return amt.add(1).pow(amt.add(1).log10().add(1).log10().times(1.5).add(2)) }
     if (id == 2) { return amt.add(1).pow(0.75).sub(1).times(3).add(1) }
     else { return amt.div(2).add(1).log10().div(3).add(1).pow(1.25) }
 }
