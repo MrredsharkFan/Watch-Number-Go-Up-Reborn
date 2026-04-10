@@ -31,7 +31,7 @@ function standard(n, la) {
         return `${t1[n]}`
     } else {
         if (n.gte(1000)) {
-            c = `${standard(n.div(1000).floor().sub(1), la.add(1))}${t2_1[la]}-`
+            c = `${standard(n.div(1000).floor(), la.add(1))}${t2_1[la]}-`
         }
         c = `${c}${t1_1[n.mod(10)]}${t1_2[(n.div(10).floor()).mod(10)]}${t1_3[(n.div(100).floor()).mod(10)]}`
     }
