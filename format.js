@@ -78,6 +78,7 @@ function hex(num) {
 
 function format(num, prec = 2) {
     var no = player.notation
+    if (no == undefined) { player.notation = "S:1e6"; return ""}
     if (no[0] == "S") { var lim = no.split(":")[1] }
     else {var lim = new Decimal(0)}
     var num = new Decimal(num)
