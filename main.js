@@ -112,7 +112,7 @@ TIME = 0
 
 
 function tick() {
-    dt = (Date.now() - last_tick) / 1000
+    dt = (Date.now() - last_tick) / 1000 + 1e-15
     TIME = TIME + dt
     last_tick = Date.now()
     try {
@@ -120,7 +120,7 @@ function tick() {
         player.money = player.money.add(money_gain().times(dt))
 
         el_automation(dt)
-        dg("fps", (1 / dt).toFixed(2) + "fps")
+        dg("fps", Math.min(1 / dt,1000).toFixed(2) + "fps")
         dg("upg_effect", format(upgrade_effect(player.upgrade)) + " points")
         dg("upg_cost", format(upg_cost(player.upgrade)))
         dg("pps", OoM_pt(dt).gte(100) ? format(OoM_pt(dt)) + " OoMs/s" : format(pps()) + "/s")
