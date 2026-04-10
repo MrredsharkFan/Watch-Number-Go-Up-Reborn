@@ -125,7 +125,7 @@ function tick() {
         dg("upg_cost", format(upg_cost(player.upgrade)))
         dg("pps", OoM_pt(dt).gte(100) ? format(OoM_pt(dt)) + " OoMs/s" : format(pps()) + "/s")
         dg("upg_boost_remain", "Next boost in " + format(remain(player.upgrade)[0]) + " upgrades")
-        dg("eff_upg", `${format(player.upgrade)} bought upgrades, ${(player.upgrade.gte(1e4) ? "Effective upgrades: " + format(eff_upgrade()) : "")}<br>Tier ${format(player.upgrade.pow(0.5).floor())}`)
+        dg("eff_upg", `${format(player.upgrade)} bought upgrades, ${(player.upgrade.gte(1e4) ? "Effective upgrades: " + format(eff_upgrade()) : "")}<br>Tier ${format(player.upgrade.sub(1).max(0).pow(0.5).floor())}`)
 
         dg("rp", format(player.rp))
         dg("rp_gain", format(rp_gain()))
