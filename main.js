@@ -108,9 +108,12 @@ function el_automation(dt) { //putting it here because it fits the dt shitposts
     }
 }
 
+TIME = 0
+
 
 function tick() {
     dt = (Date.now() - last_tick) / 1000
+    TIME = TIME + dt
     last_tick = Date.now()
     player.total_points = player.total_points.add(pps().times(dt))
     player.money = player.money.add(money_gain().times(dt))
@@ -173,6 +176,7 @@ function tick() {
     player.notation = document.getElementById("notation").value
     player.comma_format = document.getElementById("comma_slider").value
     dg("comma_value", player.comma_format)
+    dgs("hallbtn", "background-color", `hsl(${TIME*1000%360},100%,50%)`)
 }
 
 setInterval(tick,1,1)

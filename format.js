@@ -85,7 +85,7 @@ function format(num, prec = 2) {
     if (no[0] == "D") { return dots(num) }
     if (num.eq(0)) {return num.toFixed(prec)}
     if (num.lt(0)) { return `-${format(num.times(-1))}` }
-    if (num.lt(0.001)){return `${format(num.pow(-1))}<sup>-1</sup>`}
+    if (num.lt(0.1)){return `${format(num.pow(-1))}<sup>-1</sup>`}
     if (num.lte(`e${player.comma_format}`)) { return commaFormat(num.toFixed(prec)) }
     else if (num.lte(lim)) {
         var n = num.log10().div(3).floor().sub(1)
