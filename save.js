@@ -52,7 +52,7 @@ function save() {
     detectNaN()
     localStorage.setItem("wngu-r2",JSON.stringify(player))
 }
-setInterval(save, 1000, 1)
+s = setInterval(save, 1000, 1)
 
 function load() {
     var u = JSON.parse(localStorage.getItem("wngu-r2"))
@@ -92,13 +92,16 @@ const banks =
 
 function bank(num) {
     if (confirm("Are you sure you want to use this save? This will OVERRIDE your progress!")) {
+        clearInterval(s)
         localStorage.setItem("wngu-r2", banks[num])
         location.reload()
     }
 }
 
 function import_player(data) {
+    console.log(data)
     if (confirm("Are you sure you want to use this save to override the previous save?")) {
+        clearInterval(s)
         localStorage.setItem("wngu-r2", data)
         location.reload()
     }
