@@ -96,6 +96,13 @@ function bank(num) {
     }
 }
 
+function import_player(data) {
+    if (confirm("Are you sure you want to use this save to override the previous save?")) {
+        localStorage.setItem("wngu-r2", data)
+        location.reload()
+    }
+}
+
 
 
 document.getElementById("notation").value = player.notation
