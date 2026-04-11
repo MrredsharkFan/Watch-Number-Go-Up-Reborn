@@ -134,7 +134,11 @@
                 <div style="background-color: #cf9e87; position: absolute; top: 8%; width: 90%; left: 5%; height: 14%; z-index: 5;">
                     <button onclick="actual_roll()" style="position: absolute; left: 5%; width: 40%; height: 40%; top: 5%">Buy a rune!<br>Cost: $<span id="rune_cost"></span></button>
                     <button onclick="roll_upgrade()" style="position: absolute; left: 55%; width: 40%; height: 40%; top: 5%">Upgrade rune buy level!<br>Cost: $<span id="rup_cost"></span></button><br>
-                    <button onclick="downgrade()" style="position: absolute; left: 5%; width: 90%; height: 20%; top: 50%">Downgrade your rune level.</button>
+                    <button onclick="downgrade()" style="position: absolute; left: 5%; width: 90%; height: 20%; top: 50%">Downgrade your rune level.</button><br>
+                    <div style="position: absolute; left: 5%; width: 90%; height: 20%; top: 75%; background-color: #af7e67; font-size: 80%;" class="rc">
+                        <span style="z-index: 25">Reach 1.00e200$ to make rune level a continuum.</span>
+                        <div style="width: 50%; background-color: #bf9e88; position: absolute; height: 100%; z-index: 0" id="ubar6"></div>
+                    </div>
                 </div>
                 <div class="rc" style="background-color: #cf9e87; position: absolute; top: 23%; width: 90%; left: 5%; height: 73%; z-index: 5;">
                     <div style="top: 2%; height: 12%; width: 90%; left: 5%; position: absolute;z-index: 9; background-color: #dfae97;">
@@ -215,9 +219,12 @@
 
 
         <div id="p2" style="translate: 9999999999999999px" class="page">
-            <div class="rc" style="position: fixed; width: 40%; height: 20%; right: 30%; top: 40%; background-color: #eee; text-align: center;">
-                南界是从他玛到米利巴加低斯的水，延到埃及小河，直到大海。 这是南界。<br>
-                以西结书 47:19
+            <div style="position: fixed; width: 40%; height: 5%; left: 5%; top: 5%; background-color: #1f0; text-align: center">
+                You have <b id="incr"></b> incrementals <br>(<span id="incrps"></span>/s)
+            </div>
+            <div style="position: fixed; width: 40%; height: 50%; left: 5%; top: 12%; background-color: #1f0; text-align: center">
+                Click on a cell to alter its value.
+                <div id="upg_incr"></div>
             </div>
         </div>
 
@@ -249,6 +256,8 @@
             <button class="save_bank" onclick="bank(0)">Rune Start<br><i>e30 points, provided by a bep</i></button>
             <button class="save_bank" onclick="bank(5)">Buy max unlocked<br><i>e115 points, provided by a bep</i></button>
             <button class="save_bank" onclick="bank(7)">Auto boost unlocked<br><i>e505 points, provided by a bep</i></button><br>
+            <button class="save_bank" onclick="bank(8)">Layers unlocked<br><i>e10,024 points, provided by a bep</i></button><br>
+            <button class="save_bank" onclick="bank(9)">Pre-Artifact<br><i>e67,200 points, provided by a bep</i></button>
             <button class="save_bank" onclick="bank(4)">Early Artifact<br><i>e90,000 points, provided by B bep</i></button><br>
             <button class="save_bank" onclick="bank(1)">Mid Collapse<br><i>e2.90e18 points, provided by coolppl_idk</i></button>
             <button class="save_bank" onclick="bank(6)">Pre-World 2<br><i>e1.07e21 points, provided by B bep</i></button>
@@ -262,7 +271,9 @@
         </div>
 
         <div class="tab" id="Hall">
-            <span style="position: absolute; font-size: 150%; left: 25%; width: 50%; top: 10%; height: 30%; background-color: #00000080; outline: solid; outline-width: 10px; outline-color: white;">Congrats to Coolppl_idk for getting e2Qa points prior to the collapse update<br>As a reward, I will disassemble Grow Your Planet</span>
+            <span style="position: absolute; font-size: 150%; left: 5%; width: 90%; top: 10%; height: 15%; background-color: #00000080; outline: solid; outline-width: 10px; outline-color: white;">Congrats to Coolppl_idk for getting e2Qa points prior to the collapse update<br>As a reward, I will disassemble Grow Your Planet</span>
+            <span
+                style="position: absolute; font-size: 150%; left: 5%; width: 90%; top: 30%; height: 15%; background-color: #00000080; outline: solid; outline-width: 10px; outline-color: white;">Congrats to Coolppl_idk for getting e1.5e25 points prior to the Page 2 update</span>
             <div style="position: absolute; width: 90%; height: 3%; top: 86%; left: 5%; background-color: hsl(0,50%,50%);" id="qual"></div>
             <button onclick="player.ppt = (player.points.gte('ee21')||player.ppt==1)?1:0" style="position: absolute; width: 90%; height: 3%; top: 90%; left: 5%">Prove yourself... Escape the endless runes... MTBeMSBTZXh0aWxsaW9u</button>
         </div>
@@ -271,6 +282,7 @@
 <script src="break_eternity.min.js"></script>
 <script src="essential_shit.js"></script>
 <script src="format.js"></script>
+<script src="upgrades.js"></script>
 <script src="artifact.js"></script>
 <script src="runes.js"></script>
 <script src="save.js"></script>

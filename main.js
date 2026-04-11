@@ -1,8 +1,3 @@
-
-
-
-console.log(player)
-
 last_tick = Date.now()
 
 el = 1
@@ -96,6 +91,9 @@ function automate_stuff() {
     if (player.total_points.gte("1e500")) {
         buy_upg()
     }
+    if (player.money.gte("1e200")) {
+        player.rune_level = player.money.add(1).div(1000).log10().times(1.4).max(0).add(1e-5)
+    }
 }
 
 function el_automation(dt) { //putting it here because it fits the dt shitposts
@@ -107,6 +105,15 @@ function el_automation(dt) { //putting it here because it fits the dt shitposts
         }
     }
 }
+
+function incrps() {
+    if (player.ppt<=0){return new Decimal(0)}
+    var v = player.points.add(1).log10().add(1).log10().sub(20).max(1).log10().add(1).pow(3).sub(1)
+    return v
+}
+
+
+
 
 TIME = 0
 
@@ -164,6 +171,7 @@ function tick() {
         dgs("ubar2", "width", `${remain(player.upgrade)[1].times(100)}%`)
         dgs("ubar3", "width", `${player.total_points.add(1).log10().min(100)}%`)
         dgs("ubar4", "width", `${player.total_points.add(1).log10().div(5).min(100)}%`)
+        dgs("ubar6", "width", `${player.money.add(1).log10().div(2).min(100)}%`)
 
 
         dg("qual", `${format(player.total_points.add(1).log10().add(1).log10().div(21).times(100).min(100), 5)}%`)
@@ -172,12 +180,26 @@ function tick() {
 
         player.points = player.points.add(pps().times(dt))
         dg("points", format(player.points))
+
+        //PAGE 2
+        player.incr = player.incr.add(incrps().times(dt))
+        dg("incr", format(player.incr,4))
+        dg("incrps", format(incrps(),4))
+
+
+
+
+
+
+
     
         tab_logic()
         automate_stuff()
         fix_latter_zeroes()
 
         draw_artifact()
+
+        draw_grid()
 
         player.notation = document.getElementById("notation").value
         player.comma_format = document.getElementById("comma_slider").value
