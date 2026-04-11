@@ -45,8 +45,12 @@ function ltl(x) {
     return x
 }
 
-function modLog(num) {
-    return num.log(2).mod(1).pow_base(2).add(num.log(2).floor()).sub(1)
+function modLog(x) {
+    x = new Decimal(x)
+    const floorOfLog = new Decimal.log2(x).floor();
+    const previousPowerOfTwo = new Decimal.pow(2, floorOfLog);
+    const fractionToNextPowerOfTwo = new Decimal.div(x, previousPowerOfTwo).sub(1);
+    return floorOfLog.add(fractionToNextPowerOfTwo);
 }
 
 function dot_sub(num,prec) {
@@ -68,10 +72,10 @@ function dots(num) {
 }
 
 function hex(num) {
-    var v = num
+    var v = new Decimal(num)
     var j = ""
     for (i = 0; i < 32; i++) {
-        if (!v.gt(0)) { v = modLog(v.times(-1)).times(-1); j = j + "0" } else { v = modLog(v); j = j + "1" }
+        if (!v.gt(0)) { if (v.eq(0)) { j = (j + "0".repeat(32)).slice(0, 32); break} v = modLog(v.neg()).neg(); j = j + "0" } else { v = modLog(v); j = j + "1" }
     }
     return parseInt(j,2).toString(16)
 }

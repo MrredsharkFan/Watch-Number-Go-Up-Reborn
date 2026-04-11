@@ -8,6 +8,7 @@ function pps() {
     p = p.times(total_rune_eff(player.runes))
     p = p.times(el_boost())
     p = p.pow(get_art_effect(0)[0])
+    p = p.pow(incr_effect()[0])
     return p
 }
 
@@ -139,7 +140,7 @@ function tick() {
         dg("rp_eff", format(reb_boost()))
 
         dg("rune_stats", format(total_rune_eff(player.runes)))
-        dg("rune_stats_2", format(luck(), 4))
+        dg("rune_stats_2", format(luck(), 6))
         dg("runes", display_rarity_html(player.runes))
         dg("money", format(player.money))
         dg("mps", format(money_gain()))
@@ -184,7 +185,10 @@ function tick() {
         //PAGE 2
         player.incr = player.incr.add(incrps().times(dt))
         dg("incr", format(player.incr,4))
-        dg("incrps", format(incrps(),4))
+        dg("incrps", format(incrps(), 4))
+        dg("incr_cost", format(incr_cost(hover)))
+        dg("incr_cost_b", hover)
+        dg("grid_effect", display_incr_effects())
 
 
 
@@ -206,7 +210,10 @@ function tick() {
         dg("comma_value", player.comma_format)
         dgs("hallbtn", "background-color", `hsl(${TIME * 1000 % 360},100%,50%)`)
     }
-    catch (err){detectNaN()}
+    catch (err) {
+        console.log(err)
+        detectNaN()
+    }
 }
 
 setInterval(tick,1,1)

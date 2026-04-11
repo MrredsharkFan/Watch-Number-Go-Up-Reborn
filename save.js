@@ -90,8 +90,10 @@ const banks =
 
 
 function bank(num) {
-    localStorage.setItem("wngu-r2", banks[num])
-    location.reload()
+    if (confirm("Are you sure you want to use this save? This will OVERRIDE your progress!")) {
+        localStorage.setItem("wngu-r2", banks[num])
+        location.reload()
+    }
 }
 
 

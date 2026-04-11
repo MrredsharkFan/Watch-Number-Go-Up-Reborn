@@ -46,6 +46,7 @@ function luck() {
     var l = new Decimal(3)
     var l2 = player.rune_level.div(3).add(1)
     l2 = l2.times(get_art_effect(3)).div(rune_col_power())
+    l2 = l2.times(incr_effect()[2])
     l = l.root(l2)
     return l
 }
@@ -93,6 +94,7 @@ function artifact_power(data=player.runes) {
         j = j.add(indiv_rune_eff(data[i], i).add(1).log10().pow(new Decimal(i).add(1).log10().add(1)).times(i))
     }
     j = j.pow(0.7).div(1000).times(rune_col_art_power())
+    j = j.times(incr_effect()[1])
     return [j.floor(),j.mod(1)]
 }
 
