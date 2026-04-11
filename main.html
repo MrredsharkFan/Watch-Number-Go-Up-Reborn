@@ -229,7 +229,7 @@
             <div style="position: fixed; width: 40%; height: 5%; left: 1%; top: 5%; background-color: #5c5; text-align: center">
                 You have <b id="incr"></b> incrementals <br>(<span id="incrps"></span>/s)
             </div>
-            <div style="position: fixed; width: 40%; height: 50%; left: 1%; top: 12%; background-color: #9cf; text-align: center">
+            <div style="position: fixed; width: 48%; height: 50%; left: 1%; top: 12%; background-color: #9cf; text-align: center">
                 Click on a cell to alter its value. The outermost grids are unclickable.<br>
                 This cell (#<span id="incr_cost_b"></span>) costs <span id="incr_cost"></span> to alter.
                 <div id="upg_incr"></div>
@@ -239,13 +239,12 @@
                 Note: All boosts are boosted by Incrementals!<br><br>
                 <br><span id="grid_effect"></span>
             </div>
-            <div style="position: fixed; width: 11%; height: 24%; left: 30%; top: 64%; background-color: #abf; text-align: center;">
+            <div style="position: fixed; width: 19%; height: 24%; left: 30%; top: 64%; background-color: #abf; text-align: center;">
                 The cell boost after being clicked is about...<hr>
-                the square root of<br>
-                the absolute value of<br>
-                10*(upper right cell)<sup>2</sup><br>
-                minus the other (surrounding) cells<br>
-                <i style="font-size: 75%">(absolute value refers to how close that number is to 0)</i>
+                (the absolute value of<br>
+                10*(upper LEFT cell)<sup>3</sup>+left cell<br>
+                -the other (surrounding) cells)<sup>1/2</sup><br>
+                <i style="font-size: 70%">(absolute value refers to how close that number is to 0)</i>
             </div>
         </div>
 
