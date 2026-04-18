@@ -2,6 +2,8 @@
 
 function initPlayer() {
     return {
+        version: "2.a.0",
+
         points: new Decimal(0),
         upgrade: new Decimal(0),
         rp: new Decimal(0),
@@ -16,18 +18,16 @@ function initPlayer() {
         rune_col: new Decimal(0),
         el_col: new Decimal(0),
         ppt: 0,
-
-        incr: new Decimal(0),
-        incr_upg: "0".repeat(64).split("").map(x => new Decimal(x))
+        skill: new Decimal(0)
     }
 }
 
 player = initPlayer()
 page = 0
 
-const player_vars_d = ["points", "rp", "upgrade", "money", "total_points", "rune_level", "rune_col", "el_col", "incr"]
-const player_vars_l = ["runes", "el", "artifact","incr_upg"]
-const player_vars_str = ["notation", "comma_format", "ppt"]
+const player_vars_d = ["points", "rp", "upgrade", "money", "total_points", "rune_level", "rune_col", "el_col", "skill"]
+const player_vars_l = ["runes", "el", "artifact"]
+const player_vars_str = ["notation", "comma_format", "ppt", "version"]
 
 function detectNaN() {
     for (var i in player_vars_d) {
@@ -52,6 +52,7 @@ function save() {
     detectNaN()
     localStorage.setItem("wngu-r2",JSON.stringify(player))
 }
+
 s = setInterval(save, 1000, 1)
 
 function load() {
@@ -68,11 +69,20 @@ function load() {
     }
     for (var i in player_vars_str) {
         player[player_vars_str[i]] = u[player_vars_str[i]]
-        if (player[player_vars_str[i]] == undefined){player[player_vars_str[i]] = initPlayer()[player_vars_str[i]]}
+        if (player[player_vars_str[i]] == undefined) {
+            if (player_vars_str[i] == "version") { //old save revert
+                if (player.points.gte("ee22")) {
+                    localStorage.setItem("wngu-r2", banks[6])
+                    location.reload()
+                }
+            }
+            else {
+                player[player_vars_str[i]] = initPlayer()[player_vars_str[i]]
+            }
+        }
     }
 }
 
-load()
 
 const banks = 
     [
@@ -89,6 +99,7 @@ const banks =
         '{"points":"ee260.3837874288996","upgrade":"4.019274436597898e260","rp":"ee234.04437848008877","el":["0","ee128.42337816838486","ee70.3318279969477","ee38.38147540265725","ee20.80878147579751","3.444608687579106e139251478881","1.4960690360247066e673111","7.253382460996743e838","5.864784649953375e48","4.026045443338044e21","1231033184345.6873","1798.745396915347"],"runes":["59","32","39","36","33","25","17","10","22","13","16","13","8","10","10","5","7","6","6","2","2","3","3","0","1","0","2","1","0","0","0","0","0","0","0","0","0","1","0","0","1","0","0","0","0","0","0","0","1"],"money":"1.7872766344663178e1260","total_points":"ee260.3837874288996","rune_level":"1760.1530784888596","notation":"S:e3003","comma_format":"9","artifact":["1.647386371881762e19","6.328640933895643e19","1.8521415803436958e19","1.4418505651721178e19"],"rune_col":"11","el_col":"3","ppt":1,"incr":"25118.08616545629","incr_upg":["0","0","0","0","0","0","0","0","0","3.3676843407010564","3.651122423117564","2.5928248564074665","0","4.27679816850679","3.085145563156505","0","0","4.530925063539537","4.508868417825218","6.344595153723178","1.5960397240221196","6.364849074523602","8.430072239847457","0","0","6.03838066490637","8.317646958608943","5.553428965078268","16.01232714491059","1.2926207913333227","10.167829162957604","0","0","7.268010209981019","13.95201282116098","23.404305186800286","8.83261249746295","0","0","0","0","8.329390384130441","14.451256649057148","51.0965516330481","111.431644120142","29.57694896826545","35.7832277832623","0","0","7.058605488078063","21.22823921744007","54.67279995973799","365.28786331060644","1176.3729683483261","134.64337120877457","0","0","0","0","0","0","0","0","0"]}'
     ]
 
+load()
 
 function bank(num) {
     if (confirm("Are you sure you want to use this save? This will OVERRIDE your progress!")) {

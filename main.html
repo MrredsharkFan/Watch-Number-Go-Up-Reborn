@@ -15,13 +15,13 @@
 
     .ar_button {
         background-color: #00000080;
-        color: white
     }
 
     .tabs {
         width: 16.67%;
         height: 50%;
-        font-size: 25px;
+        font-size: 20px;
+        margin: 6px
     }
 
     .poggers {
@@ -32,18 +32,25 @@
         width: 23%; height: 6%; font-size: 80%;
     }
 
-    .upg_btn {
-        opacity: 90%;width: 10%; height: 10%; position: absolute;  color: white"
+    button {
+        background-color: #00000080;
+        color: #ffffff;
+        border-radius: 10px;
+        outline-style: solid;
+        outline-color: #ffffff;
+        outline-width: 1%;
     }
-    .upg_btn:hover{
-        opacity: 100%
+
+    div {
+        border-radius: 10px;
+        outline-style: solid;
+        outline-color: #ffffff;
+        outline-width: 1px;
     }
 </style>
-<html style="font-family: Arial, Helvetica, sans-serif; background-color: hsl(90,100%,95%); width: 100%; height: 100%; position: fixed">
+<html style="font-family: Arial, Helvetica, sans-serif; background-color: black; width: 100%; height: 100%; position: fixed">
     <body style="text-wrap: none; display: flex">
 
-
-        <div id="p1" class="poggers" style="translate: none">
         <div class="rc" style="position: fixed; width: 40%; height: 20%; right: 30%; top: 40%; background-color: #eee">
             <div style="position: absolute; top: 5%; height: 20%;background-color: #ccc; width: 90%; text-align: center;">
                 <span id="eff_upg" style="font-size: 100%"></span><br>
@@ -56,17 +63,26 @@
                 <span id="fps" style="font-size: 100%"></span><br>
             </div>
         </div>
-        <div class="rc" style="position: fixed; background-color: #ddd; width: 25%; height: 7%; left: 30%; top: 32%;">
-            <div id="ubar" style="position: absolute; height: 100%; background-color: #aaa; width: 0%; z-index: -1; transition-duration: 0.1s;"></div>
-            <button onclick="buy_upg()" style="background-color: #bbb; width: 50%">Boost speed<br>Cost: <span id="upg_cost"></span> points</button>
-        </div>
-        <div class="rc" style="position: fixed; background-color: #ddd; width: 14%; height: 3%; left: 56%; top: 32%;">
-            x<span id="upg_effect"></span>
-        </div>
-        <div class="rc" style="position: fixed; background-color: #ddd; width: 14%; height: 3%; left: 56%; top: 36%;">
-            <div id="ubar2" style="position: absolute; height: 100%; background-color: #aaa; width: 0%; z-index: -1; transition-duration: 0.1s;"></div>
-            <span id="upg_boost_remain"></span>
-        </div>
+
+
+        <div id="p1" class="poggers" style="translate: none">
+
+            <div class="rc" style="position: fixed; background-color: #ddd; width: 25%; height: 7%; left: 30%; top: 32%;">
+                <div id="ubar"
+                    style="position: absolute; height: 100%; background-color: #aaa; width: 0%; z-index: -1; transition-duration: 0.1s;">
+                </div>
+                <button onclick="buy_upg()" style="background-color: #bbb; width: 50%; color: black">Boost speed<br>Cost: <span
+                        id="upg_cost"></span> points</button>
+            </div>
+            <div class="rc" style="position: fixed; background-color: #ddd; width: 14%; height: 3%; left: 56%; top: 32%;">
+                x<span id="upg_effect"></span>
+            </div>
+            <div class="rc" style="position: fixed; background-color: #ddd; width: 14%; height: 3%; left: 56%; top: 36%;">
+                <div id="ubar2"
+                    style="position: absolute; height: 100%; background-color: #aaa; width: 0%; z-index: -1; transition-duration: 0.1s;">
+                </div>
+                <span id="upg_boost_remain"></span>
+            </div>
         <div class="rc" style="position: fixed; width: 40%; height: 2.5%; right: 30%; top: 25%; background-color: #eee">
             <div id="ubar3"
                 style="position: absolute; height: 100%; background-color: #aaa; width: 0%; z-index: -1; transition-duration: 0.1s;">
@@ -88,12 +104,14 @@
             <div id="reb_locked" style="visibility: hidden; position: fixed;">
                 Reach 100000 points to unlock.
             </div>
-            <div id="reb_div" class="rc" style="visibility: hidden">
-                <span style="background-color: #f8a; position: absolute; top: 15%"><span style="font-size: 25px;" id="rp">16</span> rebirth points</span><br>
-                <span style="background-color: #d68; position: absolute; top: 26%">x<span style="font-size: 20px;" id="rp_eff">16</span> points</span><br>
-                <button style="position: absolute; top: 40%; height: 20%" onclick="rebirth()">Rebirth</button><br>
-                <span style="background-color: #e79; position: absolute; top: 65%">+<span id="rp_gain">1000</span> rebirth points on reset</span>
-                <span style="background-color: #d68; position: absolute; top: 75%">Rebirthing resets points and upgrades.</span>
+            <div id="reb_div" class="rc" style="visibility: hidden; color: white">
+                <span style=" position: absolute; top: 15%"><span style="font-size: 25px;" id="rp">16</span> rebirth points</span>
+                <span style=" position: absolute; top: 26%">x<span style="font-size: 20px;" id="rp_eff">16</span> points</span><br>
+                <button style="position: absolute; top: 40%; height: 20%; width: 80%" onclick="rebirth()">
+                    Rebirth<br>
+                    <i>This resets points and upgrades.</i>
+                </button><br>
+                <span style=" position: absolute; top: 65%">+<span id="rp_gain">1000</span> rebirth points on reset</span>
             </div>
         </div>
         <div class="rc" style="position: fixed; width: 28%; height: 3%; left: 71%; top: 63%; background-color: hsl(180,50%,50%); transition-duration: 0.1s;" id="el_box_alt">
@@ -109,14 +127,14 @@
                 Reach 1.00e10000 points to unlock.
             </div>
             <div id="el_div" class="rc" style="visibility: hidden">
-                <span style="background-color: #00000020; position: absolute; top: 5%; visibility: hidden;" id="el_qol">eeee</span><br>
-                <span style="background-color: #00000050; position: absolute; top: 15%"><span style="font-size: 25px;" id="elp">16</span> <span id="ell"></span> points</span><br>
-                <span style="background-color: #00000024; position: absolute; top: 26%">x<span style="font-size: 20px;" id="elp_eff">16</span>
+                <span style="position: absolute; top: 5%; visibility: hidden;" id="el_qol">eeee</span><br>
+                <span style="position: absolute; top: 15%"><span style="font-size: 25px;" id="elp">16</span> <span id="ell"></span> points</span><br>
+                <span style="position: absolute; top: 26%">x<span style="font-size: 20px;" id="elp_eff">16</span>
                     points</span><br>
-                <button style="position: absolute; top: 40%; height: 20%" onclick="el_reset()">Reset</button><br>
-                <span style="background-color: #00000015; position: absolute; top: 65%">+<span id="elp_gain">1000</span> points on
+                <button style="position: absolute; top: 40%; height: 20%; width: 80%" onclick="el_reset()">Reset</button><br>
+                <span style="position: absolute; top: 65%">+<span id="elp_gain">1000</span> points on
                     reset</span>
-                <span style="background-color: #ffffff60; position: absolute; top: 75%">This resets all previous points and upgrades.</span>
+                <span style="position: absolute; top: 75%">This resets all previous points and upgrades.</span>
                 <button style="position: absolute; width: 40%; height: 10%; top: 85%; left: 5%" onclick="el = el!=1?el-1:1">Previous layer</button>
                 <button style="position: absolute; width: 40%; height: 10%; top: 85%; left: 55%" onclick="el = el!=player.el.length?el+1:el">Next layer</button>
             </div>
@@ -139,8 +157,8 @@
                     <span id="money"></span>$&NonBreakingSpace;(<span id="mps"></span>/s)
                 </div>
                 <div style="background-color: #cf9e87; position: absolute; top: 8%; width: 90%; left: 5%; height: 14%; z-index: 5;">
-                    <button onclick="actual_roll()" style="position: absolute; left: 5%; width: 40%; height: 40%; top: 5%">Buy a rune!<br>Cost: $<span id="rune_cost"></span></button>
-                    <button onclick="roll_upgrade()" style="position: absolute; left: 55%; width: 40%; height: 40%; top: 5%">Upgrade rune buy level!<br>Cost: $<span id="rup_cost"></span></button><br>
+                    <button onclick="actual_roll()" style="position: absolute; left: 5%; width: 44%; height: 40%; top: 5%">Buy a rune!<br>Cost: $<span id="rune_cost"></span></button>
+                    <button onclick="roll_upgrade()" style="position: absolute; left: 51%; width: 44%; height: 40%; top: 5%">Upgrade rune buy level!<br>Cost: $<span id="rup_cost"></span></button><br>
                     <button onclick="downgrade()" style="position: absolute; left: 5%; width: 90%; height: 20%; top: 50%">Downgrade your rune level.</button><br>
                     <div style="position: absolute; left: 5%; width: 90%; height: 20%; top: 75%; background-color: #af7e67; font-size: 80%;" class="rc">
                         <span style="z-index: 25">Reach 1.00e200$ to make rune level a continuum.</span>
@@ -186,7 +204,7 @@
 
 
 
-        <div style="position: fixed; width: 40%; height: 25%; right: 30%; top: 63%; background-color: #ff7">
+        <div class="rc" style="position: fixed; width: 40%; height: 25%; right: 30%; top: 63%; background-color: #fa2">
             <div id="col_locked" style="visibility: hidden;">Reach e1.000B points to unlock.</div>
             <div id="col_div" style="visibility: hidden;">
                 <button style='position: absolute; width: 90%; left: 5%; top: 5%; height: 40%' onclick="rune_col()">
@@ -214,7 +232,7 @@
             <button class="tabs" onclick="page = page!=0?page-1:0; dgs(`p${page+1}`,'translate','none'); dgs(`p${page+2}`,'translate','999990px')">&larr;</button>
             <button class="tabs" onclick="tab('Settings')">Settings</button>
             <button class="tabs" onclick="tab('About')">About</button>
-            <button class="tabs" onclick="tab('Hall')" style="background-color: hsl(0,100%,50%); font-size: 15px;"
+            <button class="tabs" onclick="tab('Hall')" style="background-color: hsl(0,100%,50%); font-size: 11px;"
                 id="hallbtn"><b>HALL OF DAMN</b></button>
             <button class="tabs" onclick="page = page!=player.ppt?page+1:page; dgs(`p${page+1}`,'translate','none'); dgs(`p${page}`,'translate','999990px')">&rarr;</button>
         </div>
@@ -226,26 +244,11 @@
 
 
         <div id="p2" style="translate: 9999999999999999px" class="page">
-            <div style="position: fixed; width: 40%; height: 5%; left: 1%; top: 5%; background-color: #5c5; text-align: center">
-                You have <b id="incr"></b> incrementals <br>(<span id="incrps"></span>/s)
+
+            <div class="rc" style="position: fixed; width: 40%; height: 7%; left:30%; top: 10%; background-color: #6490f3;">
+
             </div>
-            <div style="position: fixed; width: 48%; height: 50%; left: 1%; top: 12%; background-color: #9cf; text-align: center">
-                Click on a cell to alter its value. The outermost grids are unclickable.<br>
-                This cell (#<span id="incr_cost_b"></span>) costs <span id="incr_cost"></span> to alter.
-                <div id="upg_incr"></div>
-                <button style="position: absolute; width: 90%; left: 5%; top: 92.5%; height: 5%" onclick="player.incr_upg = player.incr_upg.map(x => new Decimal(0))">Reset grid</button>
-            </div>
-            <div style="position: fixed; width: 28%; height: 33%; left: 1%; top: 64%; background-color: #abf; text-align: center;">
-                Note: All boosts are boosted by Incrementals!<br><br>
-                <br><span id="grid_effect"></span>
-            </div>
-            <div style="position: fixed; width: 19%; height: 24%; left: 30%; top: 64%; background-color: #abf; text-align: center;">
-                The cell boost after being clicked is about...<hr>
-                (the absolute value of<br>
-                10*(upper LEFT cell)<sup>3</sup>+left cell<br>
-                -the other (surrounding) cells)<sup>1/2</sup><br>
-                <i style="font-size: 70%">(absolute value refers to how close that number is to 0)</i>
-            </div>
+            
         </div>
 
 
@@ -283,7 +286,6 @@
             <button class="save_bank" onclick="bank(4)">Early Artifact<br><i>e90,000 points, provided by B bep</i></button><br>
             <button class="save_bank" onclick="bank(1)">Mid Collapse<br><i>e2.90e18 points, provided by coolppl_idk</i></button>
             <button class="save_bank" onclick="bank(6)">Pre-World 2<br><i>e1.07e21 points, provided by B bep</i></button><br>
-            <button class="save_bank" onclick="bank(10)">Mid grid<br><i>ee260 points, provided by B bep</i></button>
             
         </div>
 
@@ -299,7 +301,6 @@
             <span
                 style="position: absolute; font-size: 150%; left: 5%; width: 90%; top: 30%; height: 15%; background-color: #00000080; outline: solid; outline-width: 10px; outline-color: white;">
                 Congrats to Coolppl_idk for getting e1.5e25 points prior to the Page 2 update
-                <br>As a reward... <br>VEhFIExPV0VSIERJQUdPTkFMIElTIFRIRSBLRVkuLi4gW09PT10gW09YT10gW09PWV0=<br><span style="opacity: 15%; font-size: 50%">THE LOWER DIAGONAL IS THE KEY... [OOO] [OXO] [OOY]</span>
             </span>
             <div style="position: absolute; width: 90%; height: 3%; top: 86%; left: 5%; background-color: hsl(0,50%,50%);" id="qual"></div>
             <button onclick="player.ppt = (player.points.gte('ee21')||player.ppt==1)?1:0" style="position: absolute; width: 90%; height: 3%; top: 90%; left: 5%">Prove yourself... Escape the endless runes... MTBeMSBTZXh0aWxsaW9u</button>
@@ -309,7 +310,7 @@
 <script src="break_eternity.min.js"></script>
 <script src="essential_shit.js"></script>
 <script src="format.js"></script>
-<script src="grid.js"></script>
+<script src="skill.js"></script>
 <script src="artifact.js"></script>
 <script src="runes.js"></script>
 <script src="save.js"></script>

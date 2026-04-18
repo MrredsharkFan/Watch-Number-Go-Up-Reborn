@@ -8,7 +8,6 @@ function pps() {
     p = p.times(total_rune_eff(player.runes))
     p = p.times(el_boost())
     p = p.pow(get_art_effect(0)[0])
-    p = p.pow(incr_effect()[0])
     return p
 }
 
@@ -183,12 +182,6 @@ function tick() {
         dg("points", format(player.points))
 
         //PAGE 2
-        player.incr = player.incr.add(incrps().times(dt))
-        dg("incr", format(player.incr,4))
-        dg("incrps", format(incrps(), 4))
-        dg("incr_cost", format(incr_cost(hover)))
-        dg("incr_cost_b", hover)
-        dg("grid_effect", display_incr_effects())
 
 
 
@@ -203,17 +196,15 @@ function tick() {
 
         draw_artifact()
 
-        draw_grid()
-
         player.notation = document.getElementById("notation").value
         player.comma_format = document.getElementById("comma_slider").value
         dg("comma_value", player.comma_format)
-        dgs("hallbtn", "background-color", `hsl(${TIME * 1000 % 360},100%,50%)`)
+        dgs("hallbtn", "background-color", `hsl(${TIME * 10 % 360},100%,10%)`)
     }
     catch (err) {
         console.log(err)
-        detectNaN()
     }
+    detectNaN()
 }
 
 setInterval(tick,1,1)

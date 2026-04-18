@@ -25,13 +25,12 @@ function get_gain(la) {
         var b = player.el[la - 1]
     }
     var la = new Decimal(la)
-    var x = b.div(100000).add(1).log10().pow(0.55).pow10()
+    var x = b.div(100000).add(1).log10().root(new Decimal(1/0.55).pow(el_effect()[0])).pow10()
     var x = x.sub(1)
     if (x.gte(1e3)) {
         x = x.pow(0.5).times(10 ** 1.5)
     }
     x = x.times(get_art_effect(1))
-    x = x.times(incr_effect()[3])
     if (la.times(el_effect()[0]).gte(4)) { x = x.div(la.times(el_effect()[0]).sub(3).pow10()) }
     return x
 }

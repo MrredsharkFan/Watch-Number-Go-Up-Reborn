@@ -10,13 +10,13 @@ function draw_artifact(input=player.artifact) {
 function artifact_button_load() {
     var t = ""
     for (var i = 0; i <= 3; i++) {
-        t = t+`<button onclick="artifact_reset(${i})" class="ar_button" id="a${i}" style="top: ${i*24+2}%; width: 66%; left: 32%; height: 12%; position: absolute"></button>`
+        t = t+`<button onclick="artifact_reset(${i})" class="ar_button" id="a${i}" style="top: ${i*24+2}%; width: 66%; left: 32%; height: 23%; position: absolute"></button>`
     }
     return t
 }
 
 function artifact_reset(id) {
-    if (artifact_power()[0].gte(1)) {
+    if (artifact_power()[0].gte(1)){
         player.artifact[id] = player.artifact[id].add(artifact_power()[0])
         rebirth()
         player.runes = [new Decimal(0)]

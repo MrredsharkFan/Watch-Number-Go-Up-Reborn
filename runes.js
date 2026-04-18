@@ -26,7 +26,9 @@ function indiv_rune_eff(amt, tier) {
 function total_rune_eff(data) {
     var j = new Decimal(1)
     for (i in data) {
-        j = j.times(indiv_rune_eff(data[i], i))
+        if (!data[i].eq(0)) {
+            j = j.times(indiv_rune_eff(data[i], i))
+        }
     }
     j = j.pow(get_art_effect(0)[1])
     return j
@@ -37,7 +39,11 @@ function display_rarity_html(data) {
     var s = Math.max(data.length - 14, 0)
     var data = data.slice(s)
     for (var i in data) {
-        q = q+`<div style="position: absolute; opacity: ${data[i].eq(0)?50:100}%; height: 5%; font-size: 80%; width: 90%; top:${5+i*5}%; background-color: hsl(${(Number(i)+Number(s))*70},50%,90%)">${format(data[i])} ${actual_name(Number(i)+Number(s))} [#${format(new Decimal(Number(i)+Number(s)).times(rune_col_power()))}]&rarr; x${format(indiv_rune_eff(data[i],Number(i)+Number(s)))} points</div>`
+        var n = Number(i) + Number(s)
+        q = q + `<div style="position: absolute; opacity: ${data[i].eq(0) ? 50 : 100}%; height: 5%; font-size: 80%; width: 90%; top:${5 + i * 6}%; background-color: hsl(${(Number(i) + Number(s)) * 70},50%,90%)">
+        ${format(data[i])} ${actual_name(n)} 
+        [#${format(new Decimal(n).times(rune_col_power()))}]&rarr; 
+        x${format(indiv_rune_eff(data[i], n))} points</div>`
     }
     return q
 }
@@ -46,7 +52,6 @@ function luck() {
     var l = new Decimal(3)
     var l2 = player.rune_level.div(3).add(1)
     l2 = l2.times(get_art_effect(3)).div(rune_col_power())
-    l2 = l2.times(incr_effect()[2])
     l = l.root(l2)
     return l
 }
@@ -91,10 +96,11 @@ function rup_cost() { return player.rune_level.div(1.4).add(3).pow10() }
 function artifact_power(data=player.runes) {
     var j = new Decimal(0)
     for (i in data) {
-        j = j.add(indiv_rune_eff(data[i], i).add(1).log10().pow(new Decimal(i).add(1).log10().add(1)).times(i))
+        if (!data[i].eq(0)) {
+            j = j.add(indiv_rune_eff(data[i], i).add(1).log10().pow(new Decimal(i).add(1).log10().add(1)).times(i))
+        }
     }
     j = j.pow(0.7).div(1000).times(rune_col_art_power())
-    j = j.times(incr_effect()[1])
     return [j.floor(),j.mod(1)]
 }
 
