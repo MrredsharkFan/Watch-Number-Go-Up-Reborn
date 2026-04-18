@@ -18,16 +18,19 @@ function initPlayer() {
         rune_col: new Decimal(0),
         el_col: new Decimal(0),
         ppt: 0,
-        skill: new Decimal(0)
+        skill: new Decimal(0),
+        rolled_diff: new Decimal(0),
+        level_end_time: Date.now(),
+        skill_boost: [new Decimal(0),new Decimal(0)]
     }
 }
 
 player = initPlayer()
 page = 0
 
-const player_vars_d = ["points", "rp", "upgrade", "money", "total_points", "rune_level", "rune_col", "el_col", "skill"]
-const player_vars_l = ["runes", "el", "artifact"]
-const player_vars_str = ["notation", "comma_format", "ppt", "version"]
+const player_vars_d = ["points", "rp", "upgrade", "money", "total_points", "rune_level", "rune_col", "el_col", "skill", "rolled_diff"]
+const player_vars_l = ["runes", "el", "artifact","skill_boost"]
+const player_vars_str = ["notation", "comma_format", "ppt", "version","level_end_time"]
 
 function detectNaN() {
     for (var i in player_vars_d) {
@@ -100,6 +103,7 @@ const banks =
     ]
 
 load()
+player.version = "2.a.0"
 
 function bank(num) {
     if (confirm("Are you sure you want to use this save? This will OVERRIDE your progress!")) {

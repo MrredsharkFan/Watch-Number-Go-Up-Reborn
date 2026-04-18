@@ -68,7 +68,7 @@ function dots(num) {
     if (num.sign == -1) { return '⠁'+dots(num.times(-1))}
     if (num.eq(0)) { return "⣿"}
     if (num.lt(1)) { return "⣿"+dots(num.pow(-1))}
-    return "⣿⣿"+dot_sub(num,4)+dot_sub(num.log10().floor(),num.log10().log10().floor().add(1))
+    return "⣿"+dot_sub(num,4)+dot_sub(num.div(254).log10().floor(),num.div(254).log10().log10().floor().add(1))
 }
 
 function hex(num) {
@@ -80,7 +80,7 @@ function hex(num) {
     return parseInt(j,2).toString(16)
 }
 
-function format(num, prec = 2) {
+function format(num, prec = 2, small=true) {
     var no = player.notation
     if (no == undefined) { player.notation = "S:1e6"; return ""}
     if (no[0] == "S") { var lim = no.split(":")[1] }
@@ -90,7 +90,7 @@ function format(num, prec = 2) {
     if (no[0] == "D") { return dots(num) }
     if (num.eq(0)) {return num.toFixed(prec)}
     if (num.lt(0)) { return `-${format(num.times(-1))}` }
-    if (num.lt(0.1)){return `${format(num.pow(-1))}<sup>-1</sup>`}
+    if (num.lt(0.1)&&small){return `${format(num.pow(-1))}<sup>-1</sup>`}
     if (num.lte(`e${player.comma_format}`)) { return commaFormat(num.toFixed(prec)) }
     else if (num.lte(lim)) {
         var n = num.log10().div(3).floor().sub(1)
@@ -107,4 +107,14 @@ function format(num, prec = 2) {
     else {
         return num.mag < 1e10 ? `${format(Math.log10(num.mag))}F${format(num.layer,0)}` : `${format(Math.log10(Math.log10(num.mag)))}F${format(num.layer+1,0)}`
     }
+}
+
+function format_time(s) {
+    s = new Decimal(s)
+    if (s.lt(60)) { return `${format(s)}s` }
+    if (s.lt(60 * 60)) { return `${format(s.div(60).floor(), 0)}min ${format_time(s.mod(60))}` }
+    if (s.lt(60 * 60 * 24)) { return `${format(s.div(60 * 60).floor(), 0)}h ${format_time(s.mod(3600))}` }
+    if (s.lt(60 * 60 * 24 * 365)) { return `${format(s.div(60 * 60 * 24).floor(), 0)}d ${format_time(s.mod(86400))}` }
+    if (s.lt(60 * 60 * 24 * 365 * 1000)) { return `${format(s.div(60 * 60 * 24 * 365).floor(), 0)}yr ${format_time(s.mod(86400 * 365))}` }
+    else { return `${format(s.div(60 * 60 * 24 * 365))} years`}
 }

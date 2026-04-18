@@ -32,6 +32,7 @@ function get_gain(la) {
     }
     x = x.times(get_art_effect(1))
     if (la.times(el_effect()[0]).gte(4)) { x = x.div(la.times(el_effect()[0]).sub(3).pow10()) }
+    x = x.times(skill_effects(1))
     return x
 }
 

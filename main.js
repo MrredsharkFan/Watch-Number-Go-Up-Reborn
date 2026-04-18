@@ -8,6 +8,7 @@ function pps() {
     p = p.times(total_rune_eff(player.runes))
     p = p.times(el_boost())
     p = p.pow(get_art_effect(0)[0])
+    p = p.pow(skill_effects(0))
     return p
 }
 
@@ -182,7 +183,16 @@ function tick() {
         dg("points", format(player.points))
 
         //PAGE 2
+        dg("skill_num", format(player.skill))
+        dg("skill_diff", `${format(get_difficulty_skill(player.skill), 5)} (${get_difficulty_rating(get_difficulty_skill(player.skill))})`)
+        dg("reroll_diff", format(player.rolled_diff, 2, false))
+        dg("level_time", format_time(get_attempt_time(player.rolled_diff)))
+        dg("skill_chance", level_chance().lt(100)?`${format(level_chance().pow(-1).times(100))}%`:`1/${format(level_chance())}`)
+        dg("skill_gain", `+${format(get_skill_gain())}`)
 
+        dgs("ubar7", "width", `${get_level_percent()}%`)
+        
+        detect_end()
 
 
 
@@ -195,11 +205,12 @@ function tick() {
         fix_latter_zeroes()
 
         draw_artifact()
+        render_skills()
 
         player.notation = document.getElementById("notation").value
         player.comma_format = document.getElementById("comma_slider").value
         dg("comma_value", player.comma_format)
-        dgs("hallbtn", "background-color", `hsl(${TIME * 10 % 360},100%,10%)`)
+        dgs("hallbtn", "background-color", `hsl(${TIME * 100 % 360},100%,10%)`)
     }
     catch (err) {
         console.log(err)

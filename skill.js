@@ -30,3 +30,81 @@ function get_difficulty_skill(s) {
     }
     return p
 }
+
+function reroll_diff() {
+    var l = ((Math.log2(1 / Math.random()) + 4) ** 2 - 16)/10
+    player.rolled_diff = new Decimal(l)
+    player.level_end_time = -6767676767676767
+}
+
+function get_attempt_time(l) {
+    var l = new Decimal(l)
+    return l.pow(0.95).pow_base(2).pow(new Decimal(2).tetrate(l.div(30).add(0.5)))
+}
+
+function chance(l) {
+    var l = new Decimal(l)
+    var r = get_difficulty_skill(player.skill).sub(l)
+    return r.pow10()
+}
+
+function start_level() {
+    if (player.level_end_time < Date.now()) {
+        player.level_end_time = get_attempt_time(player.rolled_diff).toNumber() * 1000 + Date.now()
+    }
+}
+
+function remaining_time() {return player.level_end_time - Date.now()}
+function get_level_percent() {return Math.max(Math.min(100,(remaining_time()/1000/get_attempt_time(player.rolled_diff))*100),0)}
+function get_skill_gain(diff = player.rolled_diff) {
+    diff = new Decimal(diff);
+    var v = diff.pow(1.1).pow_base(2)
+    v = v.times(player.points.log10().log10().sub(21).max(0).add(1).pow(5))
+    return v
+}
+
+function detect_end() {
+    if (remaining_time() < 0 && !(remaining_time() < -67676767676767)) {
+        if ((1 / Math.random()) > level_chance()) { player.skill = player.skill.add(get_skill_gain()) }
+        player.level_end_time = -6767676767676767
+    }
+}
+
+function base_level_chance(diff) {
+    var diff = new Decimal(diff)
+    var bc = diff.div(3).add(1).pow_base(diff.add(1).times(2).pow(1.5))
+    return bc.div(s).max(0).add(1)
+}
+
+function level_chance(diff = player.rolled_diff) {
+    var s = base_level_chance(get_difficulty_skill(player.skill))
+    return base_level_chance(diff).div(s).max(1)
+}
+
+//boosts
+function get_boost_chance(lvl) {
+    var lvl = new Decimal(lvl)
+    return lvl.pow_base(1.2).times(10).div(base_level_chance(get_difficulty_skill(player.skill))).max(1)
+}
+
+function skill_upgrade(i) {
+    if ((1 / Math.random()) > get_boost_chance(player.skill_boost[i])) {
+        player.skill_boost[i] = player.skill_boost[i].add(1)
+    }
+}
+
+function skill_effects(id) {
+    if (id == 0) {
+        return player.skill_boost[id].add(1).pow_base(1.03).sub(1).add(1)
+    } else {
+        return player.skill_boost[id].add(1).pow(1.4).pow_base(1.25)
+    }
+}
+
+//here because it's long
+function render_skills() {
+    dg("skill_pexp_chance", format(get_boost_chance(player.skill_boost[0])))
+    dg("skill_layer_chance", format(get_boost_chance(player.skill_boost[1])))
+    dg("skill_pexp", format(skill_effects(0),4))
+    dg("skill_layer", format(skill_effects(1)))
+}
