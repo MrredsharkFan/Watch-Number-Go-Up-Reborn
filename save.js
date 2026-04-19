@@ -20,15 +20,18 @@ function initPlayer() {
         ppt: 0,
         skill: new Decimal(0),
         rolled_diff: new Decimal(0),
-        level_end_time: Date.now(),
-        skill_boost: [new Decimal(0),new Decimal(0)]
+        level_end_time: -999999999999999999999999,
+        skill_boost: [new Decimal(0), new Decimal(0)],
+        exp: new Decimal(0),
+        hcomp: new Decimal(0)
     }
 }
 
 player = initPlayer()
 page = 0
 
-const player_vars_d = ["points", "rp", "upgrade", "money", "total_points", "rune_level", "rune_col", "el_col", "skill", "rolled_diff"]
+const player_vars_d = ["points", "rp", "upgrade", "money", "total_points", "rune_level", "rune_col", "el_col",
+    "skill", "rolled_diff","exp","hcomp"]
 const player_vars_l = ["runes", "el", "artifact","skill_boost"]
 const player_vars_str = ["notation", "comma_format", "ppt", "version","level_end_time"]
 

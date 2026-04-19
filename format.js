@@ -109,9 +109,9 @@ function format(num, prec = 2, small=true) {
     }
 }
 
-function format_time(s) {
+function format_time(s,prec) {
     s = new Decimal(s)
-    if (s.lt(60)) { return `${format(s)}s` }
+    if (s.lt(60)) { return `${format(s,prec)}s` }
     if (s.lt(60 * 60)) { return `${format(s.div(60).floor(), 0)}min ${format_time(s.mod(60))}` }
     if (s.lt(60 * 60 * 24)) { return `${format(s.div(60 * 60).floor(), 0)}h ${format_time(s.mod(3600))}` }
     if (s.lt(60 * 60 * 24 * 365)) { return `${format(s.div(60 * 60 * 24).floor(), 0)}d ${format_time(s.mod(86400))}` }

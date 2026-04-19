@@ -52,6 +52,7 @@ function luck() {
     var l = new Decimal(3)
     var l2 = player.rune_level.div(3).add(1)
     l2 = l2.times(get_art_effect(3)).div(rune_col_power())
+    l2 = l2.times(get_exp_rune_luck())
     l = l.root(l2)
     return l
 }
