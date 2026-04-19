@@ -87,13 +87,16 @@ function base_level_chance(diff) {
 
 function level_chance(diff = player.rolled_diff) {
     var s = base_level_chance(get_difficulty_skill(player.skill))
+    if (player.exp.gte("2e5")){s = s.times(get_exp_level_chance())}
     return base_level_chance(diff).div(s).max(1)
 }
 
 //boosts
 function get_boost_chance(lvl) {
     var lvl = new Decimal(lvl)
-    return lvl.pow_base(1.2).times(10).div(base_level_chance(get_difficulty_skill(player.skill))).times(50).max(1)
+    var b = lvl.pow_base(1.2).times(10).div(base_level_chance(get_difficulty_skill(player.skill))).times(50).max(1)
+    b = b.div(get_exp_upg_chance())
+    return b
 }
 
 function skill_upgrade(i) {
@@ -121,4 +124,6 @@ function render_skills() {
 //experience time!!!!!
 function get_experience_gain(lvl=player.hcomp) { return get_skill_gain(lvl, false).log10().pow(0.3).pow10().sub(1) }
 function get_experience_effect(amt = player.exp) { return amt.div(1000).add(1).log(2).pow(2).add(1) }
-function get_exp_rune_luck(amt = player.exp){return amt.div(1e5).add(1).log(10).pow(0.25).add(1).max(1)}
+function get_exp_rune_luck(amt = player.exp) { return amt.div(1e5).add(1).log(10).pow(0.25).add(1).max(1) }
+function get_exp_level_chance(amt = player.exp) { return amt.div(2e5).add(1).pow(0.5).max(1).sub(1).pow_base(10) }
+function get_exp_upg_chance(amt = player.exp) { return amt.div(3e5).add(1).pow(0.75).max(1).sub(1).pow_base(5) }

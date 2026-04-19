@@ -191,13 +191,15 @@ function tick() {
         dg("skill_diff", `${format(get_difficulty_skill(player.skill), 5)} (${get_difficulty_rating(get_difficulty_skill(player.skill))})`)
         dg("reroll_diff", format(player.rolled_diff, 2, false))
         dg("level_time", format_time(get_attempt_time(player.rolled_diff),3))
-        dg("skill_chance", level_chance().lt(1000)?`${format(level_chance().pow(-1).times(100))}%`:`1/${format(level_chance())}`)
+        dg("skill_chance", level_chance().lt(1000)?`${format(level_chance().pow(-1).times(100),3)}%`:`1/${format(level_chance())}`)
         dg("skill_gain", `+${format(get_skill_gain())}`)
 
         dg("exp", format(player.exp))
         dg("exp_gain", format(get_experience_gain()))
         dg("exp_effect", format(get_experience_effect(player.exp)))
-        dg("exp_rune_luck", format(get_exp_rune_luck(),4))
+        dg("exp_rune_luck", format(get_exp_rune_luck(), 4))
+        dg("exp_level_chance", format(get_exp_level_chance()))
+        dg("exp_level_upg", format(get_exp_upg_chance()))
 
         dgs("ubar7", "width", `${get_level_percent()}%`)
         
