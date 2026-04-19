@@ -121,4 +121,4 @@ function render_skills() {
 //experience time!!!!!
 function get_experience_gain(lvl=player.hcomp) { return get_skill_gain(lvl, false).log10().pow(0.3).pow10().sub(1) }
 function get_experience_effect(amt = player.exp) { return amt.div(1000).add(1).log(2).pow(2).add(1) }
-function get_exp_rune_luck(amt = player.exp){return amt.add(1).div(1e5).log(10).pow(0.25).add(1).max(1)}
+function get_exp_rune_luck(amt = player.exp){return amt.div(1e5).add(1).log(10).pow(0.25).add(1).max(1)}
