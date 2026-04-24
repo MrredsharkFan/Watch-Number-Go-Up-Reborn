@@ -33,7 +33,7 @@ function get_difficulty_skill(s) {
 
 function reroll_diff() {
     var l = ((Math.log2(1 / Math.random()) + 4) ** 2 - 16)/10
-    player.rolled_diff = new Decimal(l)
+    player.rolled_diff = new Decimal(l).add(effect_weather()[1][1])
     player.level_end_time = -6767676767676767
 }
 
@@ -41,6 +41,7 @@ function get_attempt_time(l) {
     var l = new Decimal(l)
     var l = l.pow(0.95).pow_base(2).pow(new Decimal(2).tetrate(l.div(30).add(0.5)))
     l = l.div(get_experience_effect(player.exp))
+    l = l.div(effect_weather()[1][0])
     return l
 }
 
@@ -122,8 +123,20 @@ function render_skills() {
 }
 
 //experience time!!!!!
-function get_experience_gain(lvl=player.hcomp) { return get_skill_gain(lvl, false).log10().pow(0.3).pow10().sub(1) }
+function get_experience_gain(lvl = player.hcomp) {
+    var a = get_skill_gain(lvl, false).log10().pow(0.3).pow10().sub(1)
+    a = a.times(player.weather[0].lte(0) ? effect_weather(player.weather)[0] : new Decimal(1))
+    return a
+}
 function get_experience_effect(amt = player.exp) { return amt.div(1000).add(1).log(2).pow(2).add(1) }
 function get_exp_rune_luck(amt = player.exp) { return amt.div(1e5).add(1).log(10).pow(0.25).add(1).max(1) }
-function get_exp_level_chance(amt = player.exp) { return amt.div(2e5).add(1).pow(0.5).max(1).sub(1).pow_base(10) }
-function get_exp_upg_chance(amt = player.exp) { return amt.div(3e5).add(1).pow(0.75).max(1).sub(1).pow_base(5) }
+function get_exp_level_chance(amt = player.exp) {
+    var a = amt.div(2e5).add(1).pow(0.5).max(1).sub(1).pow_base(10)
+    if (a.gte(1e5)) { a = a.log10().pow(0.5).times(5 ** 0.5).pow10() }
+    return a
+}
+function get_exp_upg_chance(amt = player.exp) {
+    var a = amt.div(3e5).add(1).pow(0.75).max(1).sub(1).pow_base(5)
+    if (a.gte(1e5)) { a = a.log10().pow(0.5).times(5 ** 0.5).pow10() }
+    return a
+}

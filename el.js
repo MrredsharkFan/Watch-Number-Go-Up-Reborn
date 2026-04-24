@@ -4,7 +4,12 @@ const layer_names = ["Rebirth", "Ascension", "Transcension", "Reincarnation", "V
 ]
 
 function el_boost_ind(amt, la) {
-    var la = new Decimal(la).times(el_effect()[1])
+    var la = new Decimal(la)
+    if (el_effect()[1].gte(100)) {
+        var ext_la = new Decimal(1).sub(el_effect()[1].div(el_effect()[1].add(amt.add(1).log10()))).pow(0.25).min(1)
+        la = la.add(ext_la)
+    }
+    la = la.times(el_effect()[1])
     var amt = new Decimal(amt)
     var expo1 = la.add(1).pow(0.95).div(2).pow10()
     return amt.add(1).log10().pow(0.6).pow10().pow(expo1)
@@ -33,6 +38,7 @@ function get_gain(la) {
     x = x.times(get_art_effect(1))
     if (la.times(el_effect()[0]).gte(4)) { x = x.div(la.times(el_effect()[0]).sub(3).pow10()) }
     x = x.times(skill_effects(1))
+    x = x.times(effect_weather()[2])
     return x
 }
 
@@ -62,9 +68,9 @@ function get_actual_layer_name(num) {
     var num = num.times(el_effect()[0]).round()
     var q = layer_names.length
     var r = num.mod(q)
-    var s = num.div(q).floor()
+    var s = num.div(q)
     var t = `${layer_names[r]}`
-    if (s.gte(0.5)) { t = `${t}+${s}` }
+    if (s.gte(0.5)) { t = `${t}<sup>${format(s,s.gte(new Decimal(player.comma_format).pow10()))?3:0}</sup>` }
     return `${t} [#${num}]`
 }
 
@@ -76,4 +82,6 @@ function el_col() {
     }
 }
 
-function el_effect(amt=player.el_col){return [amt.pow_base(2),amt.pow_base(new Decimal(2).add(amt.add(1).pow(0.8).sub(1)))]}
+function el_effect(amt = player.el_col) {
+    return [amt.pow_base(2), amt.pow_base(new Decimal(2).add(amt.add(1).pow(0.8).sub(1)))]
+}

@@ -10,9 +10,9 @@ function actual_name(num) {
     num = new Decimal(num)
     num = num.times(rune_col_power().round())
     var u = num.mod(r)
-    var v = num.div(r).floor()
+    var v = num.div(r)
     var q = `${rune_rarity_name[u]}`
-    if (v.gte(0.5)) { q = `${q}+${v}` }
+    if (v.gte(0.5)) { q = `${q}<sup>${format(v,v.lte(new Decimal(player.comma_format).pow10())?0:3)}</sup>` }
     return q
 }
 
@@ -40,7 +40,9 @@ function display_rarity_html(data) {
     var data = data.slice(s)
     for (var i in data) {
         var n = Number(i) + Number(s)
-        q = q + `<div style="position: absolute; opacity: ${data[i].eq(0) ? 50 : 100}%; height: 5%; font-size: 80%; width: 90%; top:${5 + i * 6}%; background-color: hsl(${(Number(i) + Number(s)) * 70},50%,90%)">
+        q = q + `<div style="position: absolute; opacity: ${data[i].eq(0) ? 50 : 100}%; 
+        height: 5%; font-size: 80%; width: 90%; top:${5 + i * 6}%; 
+        background-color: hsl(${(Number(i) + Number(s)) * 70},50%,90%)">
         ${format(data[i])} ${actual_name(n)} 
         [#${format(new Decimal(n).times(rune_col_power()))}]&rarr; 
         x${format(indiv_rune_eff(data[i], n))} points</div>`
@@ -53,7 +55,8 @@ function luck() {
     var l2 = player.rune_level.div(3).add(1)
     l2 = l2.times(get_art_effect(3)).div(rune_col_power())
     if (player.exp.gte("1e5")) { l2 = l2.times(get_exp_rune_luck()) }
-    l = l.root(l2)
+    l2 = l2.times(effect_weather()[2])
+    l = l.root(l2).max(1.0000001)
     return l
 }
 
@@ -68,7 +71,7 @@ function actual_roll() {
         if (player.runes[t] == null) {
             player.runes[t] = new Decimal(1)
         } else {
-            player.runes[t] = player.runes[t].add(1)
+            player.runes[t] = player.runes[t].add(effect_weather()[3])
         }
         player.money = player.money.sub(rune_cost())
     }

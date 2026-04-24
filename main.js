@@ -9,6 +9,8 @@ function pps() {
     p = p.times(el_boost())
     p = p.pow(get_art_effect(0)[0])
     p = p.pow(skill_effects(0))
+    p = p.log10().pow(player.weather[0].gte(0) ? effect_weather(player.weather)[0] : new Decimal(1)).pow10()
+    //var amt = amt.pow(player.weather[0].gte(0) ? effect_weather(player.weather)[0] : new Decimal(1))
     return p
 }
 
@@ -21,7 +23,10 @@ function upg_cost(amt) { return new Decimal.pow(4, amt).times(10) }
 
 function eff_upgrade(amt = player.upgrade) {
     if (amt.gte(10000)) {
-        amt = amt.div(10000).root(amt.div(1e4).add(1).log10().add(1).pow(0.005)).times(10000)
+        if (amt.lte("eeee19")) { var amt = amt.div(10000).root(amt.div(1e4).add(1).log10().add(1).pow(0.005)).times(10000) }
+        if (amt.gte("1e10000")) {
+            return eff_upgrade(amt.log10()).pow10() //WHAT THE FUCK
+        }
     }
     return amt
 }
@@ -217,6 +222,7 @@ function tick() {
 
         draw_artifact()
         render_skills()
+        update_weather()
 
         player.notation = document.getElementById("notation").value
         player.comma_format = document.getElementById("comma_slider").value
@@ -228,5 +234,6 @@ function tick() {
     }
     detectNaN()
 }
+
 
 setInterval(tick,1,1)

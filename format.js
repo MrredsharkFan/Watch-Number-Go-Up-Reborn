@@ -105,7 +105,7 @@ function format(num, prec = 2, small=true) {
         return `e${format(num.log10(),prec)}`
     }
     else {
-        return num.mag < 1e10 ? `${format(Math.log10(num.mag))}F${format(num.layer,0)}` : `${format(Math.log10(Math.log10(num.mag)))}F${format(num.layer+1,0)}`
+        return num.mag < 1e10 ? `${format(Math.log10(num.mag),prec+2)}F${format(num.layer,0)}` : `${format(Math.log10(Math.log10(num.mag)),prec+2)}F${format(num.layer+1,0)}`
     }
 }
 

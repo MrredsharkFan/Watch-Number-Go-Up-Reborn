@@ -23,7 +23,12 @@ function initPlayer() {
         level_end_time: -999999999999999999999999,
         skill_boost: [new Decimal(0), new Decimal(0)],
         exp: new Decimal(0),
-        hcomp: new Decimal(0)
+        hcomp: new Decimal(0),
+        weather: [
+            new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0),
+            new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0),
+            new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)
+        ]
     }
 }
 
@@ -32,7 +37,7 @@ page = 0
 
 const player_vars_d = ["points", "rp", "upgrade", "money", "total_points", "rune_level", "rune_col", "el_col",
     "skill", "rolled_diff","exp","hcomp"]
-const player_vars_l = ["runes", "el", "artifact","skill_boost"]
+const player_vars_l = ["runes", "el", "artifact","skill_boost","weather"]
 const player_vars_str = ["notation", "comma_format", "ppt", "version","level_end_time"]
 
 function detectNaN() {
