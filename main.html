@@ -295,7 +295,7 @@
 
             <div style="position: fixed; width: 28%; height: 58%; left:71%; top: 40%; background-color: #315ff2; text-align: center;">
                 <div style="position: absolute; width: 100%; height: 100%" id = "weather_tab"></div>
-                <button onclick="player.weather = roll_rand_weather()" id="gen_weather" style="position: absolute; width: 50%; left: 25%; height: 5%; top: 80%">Generate new weather</button>
+                <button onclick="if(player.exp.gte(1e5)){player.exp = player.exp.sub(1e5);player.weather = roll_rand_weather()}" id="gen_weather" style="position: absolute; width: 50%; left: 25%; height: 10%; top: 80%">Generate new weather<br>Costs 100,000 experience</button>
             </div>
 
             

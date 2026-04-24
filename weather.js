@@ -8,30 +8,30 @@
  */
 
 function roll_rand_weather() {
-    var s = []
-    var t = function () { return (Math.log2(1 / Math.random()) + 1) ** 1.5 }
-    s[0] = new Decimal(t()).times(Math.random() < 0.5 ? -1 : 1)
-    if (s[0].gte(0)) {
-        s[0] = s[0].pow(0.4)
-    }
-    if (Math.random() < 0.5) {
-        s[1] = new Decimal(t()).times(2)
-    }
-    s[0] = new Decimal(s[0])
-    if (Math.random() < 0.25) {
-        s[2] = new Decimal(t()).pow(1.05).times(s[0].add(25).min(40).max(10).pow(0.25).div(5).add(1))
-        if (Math.random() < 0.5 && s[2].gte(30)) {
-            s[3] = new Decimal(t())
-            if (Math.random() < 0.5 && s[2].gte(60)) {
-                s[2] = s[2].div(2)
-                s[4] = new Decimal(t()).pow(0.5).times(s[2])
+        var s = []
+        var t = function () { return (Math.log2(1 / Math.random()) + 1) ** 1.5 }
+        s[0] = new Decimal(t()).times(Math.random() < 0.5 ? -1 : 1)
+        if (s[0].gte(0)) {
+            s[0] = s[0].pow(0.4)
+        }
+        if (Math.random() < 0.5) {
+            s[1] = new Decimal(t()).times(2)
+        }
+        s[0] = new Decimal(s[0])
+        if (Math.random() < 0.25) {
+            s[2] = new Decimal(t()).pow(1.05).times(s[0].add(25).min(40).max(10).pow(0.25).div(5).add(1))
+            if (Math.random() < 0.5 && s[2].gte(30)) {
+                s[3] = new Decimal(t())
+                if (Math.random() < 0.5 && s[2].gte(60)) {
+                    s[2] = s[2].div(2)
+                    s[4] = new Decimal(t()).pow(0.5).times(s[2])
+                }
             }
         }
-    }
-    for (i = 0; i <= 4; i++){
-        s[i] = (s[i] == null ? new Decimal(0):s[i]) //normally shit like this wont exist
-    }
-    return s
+        for (i = 0; i <= 4; i++) {
+            s[i] = (s[i] == null ? new Decimal(0) : s[i]) //normally shit like this wont exist
+        }
+        return s
 }
 
 function two_box(i, j, h,c="#ffffff") {

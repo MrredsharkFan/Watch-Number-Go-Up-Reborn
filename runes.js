@@ -55,7 +55,7 @@ function luck() {
     var l2 = player.rune_level.div(3).add(1)
     l2 = l2.times(get_art_effect(3)).div(rune_col_power())
     if (player.exp.gte("1e5")) { l2 = l2.times(get_exp_rune_luck()) }
-    l2 = l2.times(effect_weather()[2])
+    l2 = l2.times(effect_weather()[3])
     l = l.root(l2).max(1.0000001)
     return l
 }
@@ -71,7 +71,7 @@ function actual_roll() {
         if (player.runes[t] == null) {
             player.runes[t] = new Decimal(1)
         } else {
-            player.runes[t] = player.runes[t].add(effect_weather()[3])
+            player.runes[t] = player.runes[t].add(effect_weather()[4])
         }
         player.money = player.money.sub(rune_cost())
     }
